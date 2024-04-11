@@ -1,8 +1,30 @@
-# React + Vite
+# Hospital Management System (HMS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an assignment for Advanced Programming subject at HCMUT.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To run this web locally, follow these steps:
+
+1. Clone or download the repository.
+
+2. Install the required dependencies:
+
+-   Cd to folder `hms-fe`.
+-   Run `yarn` then `yarn dev`.
+
+3. Open your browser and navigate to `localhost:5173`.
+
+## Code structure
+
+All codes are written in Javascript (.jsx/.js) and CSS (.css).
+Inside `src` folder, you can find these folders:
+
+-   `assets`
+-   `apis`
+-   `hooks`
+-   `layouts`
+-   `pages`
+-   `routes`
+-   `states`
+-   `utils`
