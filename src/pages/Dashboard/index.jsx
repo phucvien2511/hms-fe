@@ -4,6 +4,7 @@ const Dashboard = memo(() => {
     return (
         <div>
             <h1>Dashboard</h1>
+            <div>Hi</div>
         </div>
     );
 });
