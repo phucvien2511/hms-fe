@@ -8,12 +8,14 @@ To run this web locally, follow these steps:
 
 1. Clone or download the repository.
 
-2. Install the required dependencies and run the app:
+2. Install the required dependencies:
 
 -   Cd to folder `hms-fe`.
--   Run `yarn` then `yarn dev`.
+-   Run `yarn` to install deps (Do it only once on first installation or when package changed).
 
-3. Open your browser and navigate to `localhost:5173`.
+3. Run the app using `yarn dev`.
+
+4. Open your browser and navigate to `localhost:5173`.
 
 ## Code structure
 
