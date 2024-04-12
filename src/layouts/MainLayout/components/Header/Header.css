@@ -2,6 +2,11 @@
 .header-wrapper {
     height: var(--header-height);
     border-bottom: solid 2px brown;
+    /* sticky */
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 99;
 }
 
 /* .header-wrapper:hover {

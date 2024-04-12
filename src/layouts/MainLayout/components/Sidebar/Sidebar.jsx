@@ -20,23 +20,27 @@ const Sidebar = memo(({ open, onMaskClick }) => {
         <>
             <div className={`sidebar ${open === true ? "open" : ""}`}>
                 <div
-                    className={`sidebar-option ${
-                        isCurrentPath("/") ? "bold" : ""
-                    }`}
+                    className="sidebar-option"
                     onClick={() => handleSidebarNavigate("/")}
                 >
-                    <div className="sidebar-option-inner">
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/") ? "bold" : ""
+                        }`}
+                    >
                         <Dashboard />
                         <span>Dashboard</span>
                     </div>
                 </div>
                 <div
-                    className={`sidebar-option ${
-                        isCurrentPath("/patients") ? "bold" : ""
-                    }`}
-                    onClick={() => handleSidebarNavigate("/login")}
+                    className="sidebar-option"
+                    onClick={() => handleSidebarNavigate("/patients")}
                 >
-                    <div className="sidebar-option-inner">
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/patients") ? "bold" : ""
+                        }`}
+                    >
                         <Patient />
                         <span>Quản lý bệnh nhân</span>
                     </div>

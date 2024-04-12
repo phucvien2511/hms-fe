@@ -50,9 +50,10 @@
     color: brown;
 }
 
-/* .sidebar-option.bold {
+.sidebar-option-inner.bold {
     background-color: rgb(231, 231, 231);
-} */
+    border-radius: 6px;
+}
 
 .sidebar-option-inner {
     width: calc(100% - 32px);
