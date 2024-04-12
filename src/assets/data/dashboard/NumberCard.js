@@ -5,7 +5,7 @@ export const NumberCard = [
     },
     {
         title: "Tổng số y tá",
-        value: "200"
+        value: "250"
     },
     {
         title: "Tổng số bệnh nhân",
@@ -18,5 +18,13 @@ export const NumberCard = [
     {
         title: "Tổng số đơn thuốc",
         value: "500",
-    }
+    },
+    {
+        title: "Tổng số đơn thuốc",
+        value: "500",
+    },
+    {
+        title: "Tổng số đơn thuốc",
+        value: "500",
+    },
 ];
