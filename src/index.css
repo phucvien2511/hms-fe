@@ -48,3 +48,8 @@ body {
     padding: 0;
     font-family: "Inter", sans-serif;
 }
+
+:root {
+    --sidebar-width: 240px;
+    --header-height: 48px;
+}

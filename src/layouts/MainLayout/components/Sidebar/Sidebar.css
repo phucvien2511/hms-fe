@@ -1,0 +1,71 @@
+@import "../../../index.css";
+
+.sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    height: 100%;
+    width: var(--sidebar-width);
+    background-color: white;
+    transition: transform 0.25s ease;
+    transform: translateX(-100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    z-index: 99;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+    /* add black shadow to the right border */
+    border-top: 2px solid brown;
+}
+
+.sidebar-mask {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    height: calc(100vh - var(--header-height));
+    width: 100vw;
+    background-color: #555555;
+    transition: opacity 0.25s ease;
+    opacity: 0;
+    z-index: 98;
+    display: none;
+}
+
+.sidebar-mask.open {
+    opacity: 0.75;
+    display: block;
+}
+
+.sidebar-option {
+    width: 100%;
+}
+.sidebar-option:first-child {
+    margin-top: 16px;
+}
+.sidebar-option span {
+    font-weight: 600;
+    color: brown;
+}
+
+/* .sidebar-option.bold {
+    background-color: rgb(231, 231, 231);
+} */
+
+.sidebar-option-inner {
+    width: calc(100% - 32px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    margin: 0 auto;
+}
+
+.sidebar-option-inner:hover {
+    background-color: rgb(231, 231, 231);
+    cursor: pointer;
+    border-radius: 6px;
+}
