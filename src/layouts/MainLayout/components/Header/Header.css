@@ -1,5 +1,4 @@
-@import "../../../index.css";
-
+@import url("../../../../index.css");
 .header-wrapper {
     height: var(--header-height);
     border-bottom: solid 2px brown;
