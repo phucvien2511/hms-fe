@@ -26,8 +26,8 @@ Inside `src` folder, you can find these folders:
 -   `layouts`: Contain the code for web layout.
 -   `pages`: Contain the source code for web pages. The folder structure is following some rules:
 
-*   `index.jsx`: The main code for page component goes here.
-*   `components` folder: Contain the code for components used for that page, including multiple `{COMPONENT_NAME}` folders with `{COMPONENT_NAME}.jsx` and `{COMPONENT_NAME}.css` files.
+    -   `index.jsx`: The main code for page component goes here.
+    -   `components` folder: Contain the code for components used for that page, including multiple `{COMPONENT_NAME}` folders with `{COMPONENT_NAME}.jsx` and `{COMPONENT_NAME}.css` files.
 
 -   `routes`: Routing management.
 -   `states`: State management (coming soon).
