@@ -59,7 +59,7 @@ class ApiBase {
 
     // Add more methods as needed (put, delete, etc.)
 }
-const BASE_API_URL_TEST = "https://cat-fact.herokuapp.com";
+const BASE_API_URL_TEST = "https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole";
 const _API_CLIENT = new ApiBase(BASE_API_URL_TEST);
 
 class _ApiCall {
