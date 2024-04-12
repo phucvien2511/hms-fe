@@ -1,0 +1,11 @@
+@import url("../../index.css");
+
+.dashboard-wrapper {
+    margin: 0 auto;
+    padding: 24px;
+}
+.dashboard-stat-cards {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+}
