@@ -4,9 +4,9 @@
     border-bottom: solid 2px brown;
 }
 
-.header-wrapper:hover {
+/* .header-wrapper:hover {
     cursor: pointer;
-}
+} */
 
 .header-inner {
     display: flex;
