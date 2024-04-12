@@ -22,6 +22,7 @@
 }
 .header-menu-btn:hover {
     background-color: lightgray;
+    cursor: pointer;
 }
 .header-logo {
     font-size: 18px;
