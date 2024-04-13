@@ -8,9 +8,11 @@ const Patients = memo(() => {
         const response = await ApiCall.get("/");
         if (response.success) {
             // Change the key name of response.data[0]
-            response.data[0].map((item) => {
+            response.data[0].map((item, index) => {
+                item.id = index + 1;
                 item.firstName = item.first;
                 item.lastName = item.last;
+                item.fullName = item.first + " " + item.last;
                 item.birthday = item.created;
                 item.admissionDate = "now";
                 item.dischargeDate = "then";

@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,7 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 // import Paper from "@mui/material/Paper";
-import { TablePagination } from "@mui/material";
+import { TablePagination, TableSortLabel } from "@mui/material";
+
 import "./PatientsList.css";
 
 const PatientsList = memo(({ data }) => {
@@ -33,22 +34,54 @@ const PatientsList = memo(({ data }) => {
         }));
     }, []);
 
-    const sliceData = useCallback(() => {
-        return data.slice(
-            paginationOption.page * paginationOption.rowsPerPage,
-            paginationOption.page * paginationOption.rowsPerPage +
-                paginationOption.rowsPerPage
-        );
-    }, [data, paginationOption.page, paginationOption.rowsPerPage]);
+    // Slice data to display on table
+    // Will implement different logic when backend pagination is available
+    const sliceData = useCallback(
+        (data) => {
+            return data.slice(
+                paginationOption.page * paginationOption.rowsPerPage,
+                paginationOption.page * paginationOption.rowsPerPage +
+                    paginationOption.rowsPerPage
+            );
+        },
+        [paginationOption.page, paginationOption.rowsPerPage]
+    );
+
+    const [sortOption, setSortOption] = useState({
+        order: "asc",
+        orderBy: "id",
+    });
+    const handleSortRequest = (property) => {
+        const isAsc =
+            sortOption.orderBy === property && sortOption.order === "asc";
+        setSortOption((prev) => ({
+            ...prev,
+            order: isAsc ? "desc" : "asc",
+        }));
+        setSortOption((prev) => ({
+            ...prev,
+            orderBy: property,
+        }));
+    };
+
+    const sortedData = [...data].sort((a, b) => {
+        let comparison = 0;
+        if (a[sortOption.orderBy] > b[sortOption.orderBy]) {
+            comparison = 1;
+        } else if (a[sortOption.orderBy] < b[sortOption.orderBy]) {
+            comparison = -1;
+        }
+        return sortOption.order === "asc" ? comparison : -comparison;
+    });
     return (
-        <div>
+        <div className="employee-list-header">
             <TableContainer
                 style={{
                     overflowX: "initial",
                 }}
-                className="patients-table"
+                className="Patients-table"
             >
-                <Table sx={{ minWidth: 650 }} aria-label="patients table">
+                <Table sx={{ minWidth: 650 }} aria-label="Patients table">
                     <TableHead
                         style={{
                             position: "sticky",
@@ -58,12 +91,42 @@ const PatientsList = memo(({ data }) => {
                         }}
                     >
                         <TableRow>
-                            <TableCell style={{ fontWeight: 600 }}>
+                            <TableCell>
+                                <TableSortLabel
+                                    active={sortOption.orderBy === "id"}
+                                    direction={
+                                        sortOption.orderBy === "id"
+                                            ? sortOption.order
+                                            : "asc"
+                                    }
+                                    onClick={() => handleSortRequest("id")}
+                                    style={{ fontWeight: 600 }}
+                                >
+                                    STT
+                                </TableSortLabel>
+                            </TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    active={sortOption.orderBy === "fullName"}
+                                    direction={
+                                        sortOption.orderBy === "fullName"
+                                            ? sortOption.order
+                                            : "asc"
+                                    }
+                                    onClick={() =>
+                                        handleSortRequest("fullName")
+                                    }
+                                    style={{ fontWeight: 600 }}
+                                >
+                                    Họ và tên
+                                </TableSortLabel>
+                            </TableCell>
+                            {/* <TableCell style={{ fontWeight: 600 }}>
                                 STT
-                            </TableCell>
-                            <TableCell style={{ fontWeight: 600 }}>
+                            </TableCell> */}
+                            {/* <TableCell style={{ fontWeight: 600 }}>
                                 Họ và tên
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell style={{ fontWeight: 600 }}>
                                 Ngày sinh
                             </TableCell>
@@ -79,16 +142,18 @@ const PatientsList = memo(({ data }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sliceData().map((row, index) => (
+                        {sliceData(sortedData).map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell align="left">
-                                    {index +
+                                    {/* {index +
                                         1 +
                                         paginationOption.page *
-                                            paginationOption.rowsPerPage}
+                                            paginationOption.rowsPerPage} */}
+                                    {row.id}
                                 </TableCell>
                                 <TableCell align="left">
-                                    {row.firstName + " " + row.lastName}
+                                    {/* {row.firstName + " " + row.lastName} */}
+                                    {row.fullName}
                                 </TableCell>
                                 <TableCell>{row.created}</TableCell>
                                 <TableCell>{row.admissionDate}</TableCell>
