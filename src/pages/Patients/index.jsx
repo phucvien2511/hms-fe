@@ -1,10 +1,20 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import ApiCall from "../../apis/config";
 import PatientsList from "./components/PatientsList/PatientsList";
 
 const Patients = memo(() => {
     const [patientsData, setPatientsData] = useState([]);
-    const getPatientsData = async () => {
+    const getRandomDepartment = () => {
+        const departments = [
+            "Khoa nội",
+            "Khoa ngoại",
+            "Khoa sản",
+            "Khoa nhi",
+            "Khoa mắt",
+        ];
+        return departments[Math.floor(Math.random() * departments.length)];
+    };
+    const getPatientsData = useCallback(async () => {
         const response = await ApiCall.get("/");
         if (response.success) {
             // Change the key name of response.data[0]
@@ -16,16 +26,16 @@ const Patients = memo(() => {
                 item.birthday = item.created;
                 item.admissionDate = "now";
                 item.dischargeDate = "then";
-                item.department = "Khoa nội";
+                item.department = getRandomDepartment();
                 return item;
             });
             setPatientsData(response.data[0]);
             console.log(response.data[0]);
         }
-    };
+    }, []);
     useEffect(() => {
         getPatientsData();
-    }, []);
+    }, [getPatientsData]);
     return (
         <div>
             <h2 style={{ color: "brown" }}>Danh sách bệnh nhân</h2>
