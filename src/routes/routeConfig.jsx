@@ -12,6 +12,7 @@ import Login from "../pages/Login";
 export const routeConfig = [
     {
         index: true,
+        path: "dashboard",
         component: <Dashboard />,
     },
     {
