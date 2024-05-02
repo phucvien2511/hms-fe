@@ -62,8 +62,9 @@ class ApiBase {
 
     // Add more methods as needed (put, delete, etc.)
 }
-const BASE_API_URL_TEST = "https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole";
-const _API_CLIENT = new ApiBase(BASE_API_URL_TEST);
+//const BASE_API_URL_TEST = "https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole";
+const BASE_API_URL = "http://localhost:8081/api/v1";
+const _API_CLIENT = new ApiBase(BASE_API_URL);
 
 class _ApiCall {
     constructor() {
@@ -80,6 +81,6 @@ class _ApiCall {
 
 }
 
-// const ApiCall = new _ApiCall();
+const ApiCall = new _ApiCall();
 
-export default _ApiCall;
+export default ApiCall;

@@ -7,6 +7,8 @@ No * path is needed.
 */
 
 import Dashboard from "../pages/Dashboard";
+import Employees from "../pages/Employees";
+import PatientInfo from "../pages/PatientInfo";
 import Patients from "../pages/Patients";
 
 export const routeConfig = [
@@ -18,5 +20,13 @@ export const routeConfig = [
     {
         path: "patients",
         component: <Patients />,
+    },
+    {
+        path: "employees",
+        component: <Employees />,
+    },
+    {
+        path: "patients/:id",
+        component: <PatientInfo />,
     },
 ];

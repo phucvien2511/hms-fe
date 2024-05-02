@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { TablePagination, TableSortLabel } from "@mui/material";
 
 import "./PatientsList.css";
+import { useNavigate } from "react-router-dom";
 
 const PatientsList = memo(({ data }) => {
     const [paginationOption, setPaginationOption] = useState({
@@ -33,7 +34,16 @@ const PatientsList = memo(({ data }) => {
             page: 0,
         }));
     }, []);
-
+    const getRandomDepartment = useCallback(() => {
+        const departments = [
+            "Khoa nội",
+            "Khoa ngoại",
+            "Khoa sản",
+            "Khoa nhi",
+            "Khoa mắt",
+        ];
+        return departments[Math.floor(Math.random() * departments.length)];
+    }, []);
     // Slice data to display on table
     // Will implement different logic when backend pagination is available
     const sliceData = useCallback(
@@ -73,6 +83,8 @@ const PatientsList = memo(({ data }) => {
         }
         return sortOption.order === "asc" ? comparison : -comparison;
     });
+
+    const navigate = useNavigate();
     return (
         <div className="employee-list-header">
             <TableContainer
@@ -121,44 +133,53 @@ const PatientsList = memo(({ data }) => {
                                     Họ và tên
                                 </TableSortLabel>
                             </TableCell>
-                            {/* <TableCell style={{ fontWeight: 600 }}>
-                                STT
-                            </TableCell> */}
-                            {/* <TableCell style={{ fontWeight: 600 }}>
-                                Họ và tên
-                            </TableCell> */}
                             <TableCell style={{ fontWeight: 600 }}>
                                 Ngày sinh
                             </TableCell>
                             <TableCell style={{ fontWeight: 600 }}>
-                                Ngày vào viện
+                                Giới tính
                             </TableCell>
+                            {/* <TableCell style={{ fontWeight: 600 }}>
+                                Ngày vào viện
+                            </TableCell> */}
                             <TableCell style={{ fontWeight: 600 }}>
                                 Khoa khám
                             </TableCell>
                             <TableCell style={{ fontWeight: 600 }}>
-                                Ngày xuất viện
+                                BHYT
                             </TableCell>
+                            {/* <TableCell style={{ fontWeight: 600 }}>
+                                Ngày xuất viện
+                            </TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {sliceData(sortedData).map((row, index) => (
-                            <TableRow key={index}>
+                            <TableRow
+                                key={index}
+                                onClick={() => navigate(`/patients/${row.id}`)}
+                            >
                                 <TableCell align="left">
                                     {/* {index +
                                         1 +
                                         paginationOption.page *
                                             paginationOption.rowsPerPage} */}
-                                    {row.id}
+                                    {index + 1}
                                 </TableCell>
                                 <TableCell align="left">
                                     {/* {row.firstName + " " + row.lastName} */}
-                                    {row.fullName}
+                                    {row.firstName + " " + row.lastName}
                                 </TableCell>
-                                <TableCell>{row.created}</TableCell>
-                                <TableCell>{row.admissionDate}</TableCell>
-                                <TableCell>{row.department}</TableCell>
-                                <TableCell>{row.dischargeDate}</TableCell>
+                                <TableCell>{row.dateOfBirth}</TableCell>
+                                <TableCell>
+                                    {row.gender === "male" ? "Nam" : "Nữ"}
+                                </TableCell>
+                                <TableCell>{getRandomDepartment()}</TableCell>
+                                <TableCell>
+                                    {row.healthInsurance === true
+                                        ? "Có"
+                                        : "Không"}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
