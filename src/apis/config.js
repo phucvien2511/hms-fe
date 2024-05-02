@@ -22,6 +22,9 @@ class ApiBase {
     constructor(baseURL) {
         this.client = axios.create({
             baseURL: baseURL,
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
     }
 
@@ -77,6 +80,6 @@ class _ApiCall {
 
 }
 
-const ApiCall = new _ApiCall();
+// const ApiCall = new _ApiCall();
 
-export default ApiCall;
+export default _ApiCall;

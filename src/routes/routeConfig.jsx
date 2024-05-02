@@ -12,6 +12,7 @@ import Patients from "../pages/Patients";
 export const routeConfig = [
     {
         index: true,
+        path: "dashboard",
         component: <Dashboard />,
     },
     {
