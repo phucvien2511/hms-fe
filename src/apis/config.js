@@ -61,12 +61,44 @@ class ApiBase {
     }
 
     // Add more methods as needed (put, delete, etc.)
+    async put(endpoint, body) {
+        try {
+            const response = await this.client.put(endpoint, body);
+            return {
+                success: true,
+                data: response.data,
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                success: false,
+                error,
+            };
+        }
+    }
+
+    async delete(endpoint) {
+        try {
+            const response = await this.client.delete(endpoint);
+            return {
+                success: true,
+                data: response.data,
+            };
+        } catch (error) {
+            console.error(error);
+            return {
+                success: false,
+                error,
+            };
+        }
+    }
+
 }
 //const BASE_API_URL_TEST = "https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole";
 const BASE_API_URL = "http://localhost:8081/api/v1";
 const _API_CLIENT = new ApiBase(BASE_API_URL);
 
-class _ApiCall {
+class ApiCall {
     constructor() {
         this.client = _API_CLIENT;
     }
@@ -79,8 +111,15 @@ class _ApiCall {
         return await this.client.post(endpoint, body);
     }
 
+    async put(endpoint, body) {
+        return await this.client.put(endpoint, body);
+    }
+
+    async delete(endpoint) {
+        return await this.client.delete(endpoint);
+    }
 }
 
-const ApiCall = new _ApiCall();
+// const ApiCall = new _ApiCall();
 
 export default ApiCall;

@@ -6,8 +6,10 @@ ROUTE CONFIGURATION
 No * path is needed.
 */
 
+import AuthLayout from "../layouts/AuthLayout";
 import Dashboard from "../pages/Dashboard";
-import Employees from "../pages/Employees";
+import Staffs from "../pages/Staffs";
+import Login from "../pages/Login";
 import PatientInfo from "../pages/PatientInfo";
 import Patients from "../pages/Patients";
 
@@ -22,11 +24,16 @@ export const routeConfig = [
         component: <Patients />,
     },
     {
-        path: "employees",
-        component: <Employees />,
+        path: "staffs",
+        component: <Staffs />,
     },
     {
         path: "patients/:id",
         component: <PatientInfo />,
+    },
+    {
+        path: "login",
+        component: <Login />,
+        customLayout: <AuthLayout />,
     },
 ];

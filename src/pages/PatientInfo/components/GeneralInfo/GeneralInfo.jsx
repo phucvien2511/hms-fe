@@ -1,95 +1,149 @@
-import { TextField } from "@mui/material";
 import {
-    Suspense,
-    memo,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+    Box,
+    Button,
+    Checkbox,
+    FormControl,
+    InputLabel,
+    //InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+} from "@mui/material";
+import PropTypes from "prop-types";
+import { Suspense, memo, useState } from "react";
 import ApiCall from "../../../../apis/config";
 
-const GeneralInfo = memo(() => {
-    const currentPatientId = useMemo(() => {
-        const path = window.location.pathname;
-        const pathParts = path.split("/");
-        return pathParts[pathParts.length - 1];
-    }, []);
-    const [patientsData, setPatientsData] = useState([]);
-    const getPatientsData = useCallback(async () => {
-        const response = await ApiCall.get("/");
+const GeneralInfo = memo(({ data }) => {
+    const [patientGender, setPatientGender] = useState(data?.gender);
+    const handlePatientGenderChange = (e) => {
+        setPatientGender(e.target.value);
+    };
+    const handleSubmit = async (e) => {
+        const prepareBody = {
+            firstName: e.firstName.value,
+            lastName: e.lastName.value,
+            dateOfBirth: e.dateOfBirth.value,
+            phoneNumber: e.phoneNumber.value,
+            gender: e.gender.value,
+            healthInsurance: e.healthInsurance.checked,
+        };
+        const apiCall = new ApiCall();
+        const response = await apiCall.put(
+            "/patients/" + data?.id,
+            prepareBody
+        );
         if (response.success) {
-            // Change the key name of response.data[0]
-            response.data[0].map((item, index) => {
-                item.id = index + 1;
-                item.firstName = item.first;
-                item.lastName = item.last;
-                item.fullName = item.first + " " + item.last;
-                item.birthday = item.created;
-                item.admissionDate = "now";
-                item.dischargeDate = "then";
-                item.department = "test";
-                return item;
-            });
-            setPatientsData(response.data[0]);
-            console.log(response.data[0]);
+            alert("Cập nhật thông tin thành công");
+        } else {
+            alert("Cập nhật thông tin thất bại");
         }
-    }, []);
-    useEffect(() => {
-        getPatientsData();
-    }, [getPatientsData]);
+    };
     return (
-        <div className="patient-info-form">
+        <div>
             <Suspense fallback={<div>Loading...</div>}>
-                {patientsData[currentPatientId - 1] && (
-                    <>
+                {data?.firstName && (
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit(e.target.elements);
+                        }}
+                        className="patient-info-form"
+                    >
                         <TextField
-                            label="STT"
-                            disabled
-                            value={currentPatientId}
+                            name="firstName"
+                            label="Họ và tên đệm"
+                            defaultValue={data?.firstName}
                             size="small"
                             required
                         />
                         <TextField
-                            label="Họ và tên"
-                            defaultValue={
-                                patientsData[currentPatientId - 1]?.fullName
-                            }
+                            name="lastName"
+                            label="Tên"
+                            defaultValue={data?.lastName}
                             size="small"
                             required
                         />
                         <TextField
+                            name="dateOfBirth"
                             label="Ngày sinh"
-                            defaultValue={
-                                patientsData[currentPatientId - 1]?.birthday
-                            }
+                            value={data?.dateOfBirth}
                             size="small"
                             required
                         />
                         <TextField
-                            label="Khoa điều trị"
-                            defaultValue={
-                                patientsData[currentPatientId - 1]?.department
-                            }
+                            name="phoneNumber"
+                            label="Số điện thoại"
+                            defaultValue={data?.phoneNumber}
                             size="small"
                             required
                         />
-                        <TextField
-                            label="Ngày vào viện"
-                            defaultValue={
-                                patientsData[currentPatientId - 1]
-                                    ?.admissionDate
-                            }
+                        <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="patient-gender-label">
+                                    Giới tính
+                                </InputLabel>
+                                <Select
+                                    name="gender"
+                                    labelId="patient-gender-label"
+                                    id="patient-gender"
+                                    defaultValue={data?.gender}
+                                    value={patientGender}
+                                    onChange={handlePatientGenderChange}
+                                    label="Giới tính"
+                                    size="small"
+                                >
+                                    <MenuItem value={"male"}>Nam</MenuItem>
+                                    <MenuItem value={"female"}>Nữ</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                border: "1px solid lightgrey",
+                                borderRadius: "4px",
+                                paddingLeft: "9px",
+                                fontSize: "14px",
+                                height: "41px",
+                            }}
+                        >
+                            <div>Có BHYT?</div>
+                            <Checkbox
+                                name="healthInsurance"
+                                defaultChecked={data?.healthInsurance}
+                            />
+                        </div>
+
+                        {/* <Select
+                            labelId="patient-gender-select"
+                            id="patient-gender"
+                            value={data?.gender}
+                            label="Giới tính"
+                            size="small"
+                        >
+                            <MenuItem value={"male"}>Nam</MenuItem>
+                            <MenuItem value={"female"}>Nữ</MenuItem>
+                        </Select> */}
+                        {/* <TextField
+                            label="Có BHYT hay không"
+                            value={data?.healthInsurance}
                             size="small"
                             required
-                        />
-                    </>
+                        /> */}
+                        <Button type="submit" variant="contained">
+                            Xác nhận
+                        </Button>
+                    </form>
                 )}
             </Suspense>
         </div>
     );
 });
 
+GeneralInfo.propTypes = {
+    data: PropTypes.object.isRequired,
+};
 // Display name for fast refresh using memo
 GeneralInfo.displayName = "GeneralInfo";
 

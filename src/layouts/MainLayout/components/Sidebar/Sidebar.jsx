@@ -3,7 +3,7 @@ import "./Sidebar.css";
 import PropTypes from "prop-types";
 import Dashboard from "../../../../assets/icons/Dashboard";
 import Patient from "../../../../assets/icons/Patient";
-import Employee from "../../../../assets/icons/Employee";
+import Staff from "../../../../assets/icons/Staff";
 import Medicine from "../../../../assets/icons/Medicine";
 import Tool from "../../../../assets/icons/Tool";
 import { useNavigate } from "react-router-dom";
@@ -45,9 +45,16 @@ const Sidebar = memo(({ open, onMaskClick }) => {
                         <span>Quản lý bệnh nhân</span>
                     </div>
                 </div>
-                <div className="sidebar-option">
-                    <div className="sidebar-option-inner">
-                        <Employee />
+                <div
+                    className="sidebar-option"
+                    onClick={() => handleSidebarNavigate("/staffs")}
+                >
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/staffs") ? "bold" : ""
+                        }`}
+                    >
+                        <Staff />
                         <span>Quản lý nhân viên</span>
                     </div>
                 </div>

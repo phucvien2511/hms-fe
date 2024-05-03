@@ -13,6 +13,7 @@ import "./PatientsList.css";
 import { useNavigate } from "react-router-dom";
 
 const PatientsList = memo(({ data }) => {
+    console.log("data", data);
     const [paginationOption, setPaginationOption] = useState({
         page: 0,
         rowsPerPage: 10,
@@ -33,16 +34,6 @@ const PatientsList = memo(({ data }) => {
             ...prevState,
             page: 0,
         }));
-    }, []);
-    const getRandomDepartment = useCallback(() => {
-        const departments = [
-            "Khoa nội",
-            "Khoa ngoại",
-            "Khoa sản",
-            "Khoa nhi",
-            "Khoa mắt",
-        ];
-        return departments[Math.floor(Math.random() * departments.length)];
     }, []);
     // Slice data to display on table
     // Will implement different logic when backend pagination is available
@@ -86,125 +77,126 @@ const PatientsList = memo(({ data }) => {
 
     const navigate = useNavigate();
     return (
-        <div className="employee-list-header">
-            <TableContainer
-                style={{
-                    overflowX: "initial",
-                }}
-                className="Patients-table"
-            >
-                <Table sx={{ minWidth: 650 }} aria-label="Patients table">
-                    <TableHead
-                        style={{
-                            position: "sticky",
-                            top: 48,
-                            background: "white",
-                            boxShadow: "0 1px 0px 0 rgba(0,0,0,0.15)",
-                        }}
-                    >
-                        <TableRow>
-                            <TableCell>
-                                <TableSortLabel
-                                    active={sortOption.orderBy === "id"}
-                                    direction={
-                                        sortOption.orderBy === "id"
-                                            ? sortOption.order
-                                            : "asc"
-                                    }
-                                    onClick={() => handleSortRequest("id")}
-                                    style={{ fontWeight: 600 }}
-                                >
-                                    STT
-                                </TableSortLabel>
-                            </TableCell>
-                            <TableCell>
-                                <TableSortLabel
-                                    active={sortOption.orderBy === "fullName"}
-                                    direction={
-                                        sortOption.orderBy === "fullName"
-                                            ? sortOption.order
-                                            : "asc"
-                                    }
+        <div className="Staff-list-header">
+            {data.length > 0 && (
+                <TableContainer
+                    style={{
+                        overflowX: "initial",
+                    }}
+                    className="Patients-table"
+                >
+                    <Table sx={{ minWidth: 650 }} aria-label="Patients table">
+                        <TableHead
+                            style={{
+                                position: "sticky",
+                                top: 48,
+                                background: "white",
+                                boxShadow: "0 1px 0px 0 rgba(0,0,0,0.15)",
+                            }}
+                        >
+                            <TableRow>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={sortOption.orderBy === "index"}
+                                        direction={
+                                            sortOption.orderBy === "index"
+                                                ? sortOption.order
+                                                : "asc"
+                                        }
+                                        onClick={() =>
+                                            handleSortRequest("index")
+                                        }
+                                        style={{ fontWeight: 600 }}
+                                    >
+                                        STT
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={
+                                            sortOption.orderBy === "fullName"
+                                        }
+                                        direction={
+                                            sortOption.orderBy === "fullName"
+                                                ? sortOption.order
+                                                : "asc"
+                                        }
+                                        onClick={() =>
+                                            handleSortRequest("fullName")
+                                        }
+                                        style={{ fontWeight: 600 }}
+                                    >
+                                        Họ và tên
+                                    </TableSortLabel>
+                                </TableCell>
+                                <TableCell style={{ fontWeight: 600 }}>
+                                    Ngày sinh
+                                </TableCell>
+                                <TableCell style={{ fontWeight: 600 }}>
+                                    Giới tính
+                                </TableCell>
+                                <TableCell style={{ fontWeight: 600 }}>
+                                    Khoa khám
+                                </TableCell>
+                                <TableCell style={{ fontWeight: 600 }}>
+                                    BHYT
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {sliceData(sortedData).map((row, index) => (
+                                <TableRow
+                                    key={index}
                                     onClick={() =>
-                                        handleSortRequest("fullName")
+                                        navigate(`/patients/${row.id}`)
                                     }
-                                    style={{ fontWeight: 600 }}
+                                    className="patients-table-row"
                                 >
-                                    Họ và tên
-                                </TableSortLabel>
-                            </TableCell>
-                            <TableCell style={{ fontWeight: 600 }}>
-                                Ngày sinh
-                            </TableCell>
-                            <TableCell style={{ fontWeight: 600 }}>
-                                Giới tính
-                            </TableCell>
-                            {/* <TableCell style={{ fontWeight: 600 }}>
-                                Ngày vào viện
-                            </TableCell> */}
-                            <TableCell style={{ fontWeight: 600 }}>
-                                Khoa khám
-                            </TableCell>
-                            <TableCell style={{ fontWeight: 600 }}>
-                                BHYT
-                            </TableCell>
-                            {/* <TableCell style={{ fontWeight: 600 }}>
-                                Ngày xuất viện
-                            </TableCell> */}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {sliceData(sortedData).map((row, index) => (
-                            <TableRow
-                                key={index}
-                                onClick={() => navigate(`/patients/${row.id}`)}
-                            >
-                                <TableCell align="left">
-                                    {/* {index +
+                                    <TableCell align="left">
+                                        {/* {index +
                                         1 +
                                         paginationOption.page *
                                             paginationOption.rowsPerPage} */}
-                                    {index + 1}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {/* {row.firstName + " " + row.lastName} */}
-                                    {row.firstName + " " + row.lastName}
-                                </TableCell>
-                                <TableCell>{row.dateOfBirth}</TableCell>
-                                <TableCell>
-                                    {row.gender === "male" ? "Nam" : "Nữ"}
-                                </TableCell>
-                                <TableCell>{getRandomDepartment()}</TableCell>
-                                <TableCell>
-                                    {row.healthInsurance === true
-                                        ? "Có"
-                                        : "Không"}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 50]}
-                    component="div"
-                    count={data.length}
-                    rowsPerPage={paginationOption.rowsPerPage}
-                    labelRowsPerPage={"Số lượng hiển thị mỗi trang"}
-                    labelDisplayedRows={({ from, to, count }) => {
-                        return `${from}-${to} trong tổng số ${
-                            count !== -1 ? count : `nhiều hơn ${to}`
-                        }`;
-                    }}
-                    page={paginationOption.page}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                    style={{
-                        position: "sticky",
-                        bottom: 0,
-                        background: "white",
-                    }}
-                />
-            </TableContainer>
+                                        {row.index}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {/* {row.firstName + " " + row.lastName} */}
+                                        {row.fullName}
+                                    </TableCell>
+                                    <TableCell>{row.birthday}</TableCell>
+                                    <TableCell>{row.gender}</TableCell>
+                                    <TableCell>{row.department}</TableCell>
+                                    <TableCell>
+                                        {row.healthInsurance === true
+                                            ? "Có"
+                                            : "Không"}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        component="div"
+                        count={data.length}
+                        rowsPerPage={paginationOption.rowsPerPage}
+                        labelRowsPerPage={"Số lượng hiển thị mỗi trang"}
+                        labelDisplayedRows={({ from, to, count }) => {
+                            return `${from}-${to} trong tổng số ${
+                                count !== -1 ? count : `nhiều hơn ${to}`
+                            }`;
+                        }}
+                        page={paginationOption.page}
+                        onPageChange={handlePageChange}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                        style={{
+                            position: "sticky",
+                            bottom: 0,
+                            background: "white",
+                        }}
+                    />
+                </TableContainer>
+            )}
         </div>
     );
 });
