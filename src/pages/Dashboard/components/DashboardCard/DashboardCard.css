@@ -1,0 +1,43 @@
+@import "../../../../index.css";
+
+:root {
+    --card-base-width: 240px;
+    --card-padding: 20px;
+    --card-amount: 5; /* Per row */
+    --card-adjust-width: calc(var(--card-base-width) - var(--card-padding));
+    --card-width: calc(
+        (calc(100% - var(--dashboard-padding) * 2) / var(--card-amount)) -
+            (var(--card-padding) * (var(--card-amount) - 1))
+    );
+    /* Math logic to auto resize card's width base on the total amount of them :) */
+}
+.dashboard-card-wrapper {
+    box-shadow: var(--my-box-shadow);
+    width: max(
+        var(--card-adjust-width),
+        var(--card-width),
+        var(--card-base-width)
+    );
+    height: 80px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: var(--card-padding);
+}
+
+.dashboard-card__title {
+    font-weight: 500;
+    width: calc(100% - 48px);
+    text-wrap: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    text-align: end;
+}
+
+.dashboard-card__value {
+    color: var(--color-text-primary);
+    font-size: 28px;
+    font-weight: 600;
+}

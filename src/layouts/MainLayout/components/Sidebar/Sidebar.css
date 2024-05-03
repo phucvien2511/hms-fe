@@ -50,9 +50,10 @@
     color: brown;
 }
 
-/* .sidebar-option.bold {
-    background-color: rgb(231, 231, 231);
-} */
+.sidebar-option-inner.bold {
+    background-color: rgb(240, 240, 240);
+    border-radius: 6px;
+}
 
 .sidebar-option-inner {
     width: calc(100% - 32px);
@@ -64,7 +65,7 @@
 }
 
 .sidebar-option-inner:hover {
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(240, 240, 240);
     cursor: pointer;
     border-radius: 6px;
 }

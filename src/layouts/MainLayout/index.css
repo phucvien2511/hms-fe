@@ -1,0 +1,7 @@
+@import url("../../index.css");
+
+.children-style {
+    width: calc(100% - var(--dashboard-padding) * 2);
+    height: calc(100% - 48px);
+    margin: 0 auto;
+}

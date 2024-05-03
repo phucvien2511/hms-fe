@@ -1,4 +1,4 @@
-function Employee(props) {
+function Staff(props) {
     return (
         <svg
             width={24}
@@ -13,4 +13,4 @@ function Employee(props) {
     );
 }
 
-export default Employee;
+export default Staff;

@@ -1,0 +1,8 @@
+/* .patients-table {
+    min-height: calc(100% - 48px);
+    bottom: 0;
+} */
+.patients-table-row:hover {
+    cursor: pointer;
+    background: rgb(240, 240, 240);
+}

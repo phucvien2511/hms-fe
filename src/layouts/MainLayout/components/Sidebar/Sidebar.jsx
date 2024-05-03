@@ -3,7 +3,7 @@ import "./Sidebar.css";
 import PropTypes from "prop-types";
 import Dashboard from "../../../../assets/icons/Dashboard";
 import Patient from "../../../../assets/icons/Patient";
-import Employee from "../../../../assets/icons/Employee";
+import Staff from "../../../../assets/icons/Staff";
 import Medicine from "../../../../assets/icons/Medicine";
 import Tool from "../../../../assets/icons/Tool";
 import { useNavigate } from "react-router-dom";
@@ -20,30 +20,41 @@ const Sidebar = memo(({ open, onMaskClick }) => {
         <>
             <div className={`sidebar ${open === true ? "open" : ""}`}>
                 <div
-                    className={`sidebar-option ${
-                        isCurrentPath("/") ? "bold" : ""
-                    }`}
+                    className="sidebar-option"
                     onClick={() => handleSidebarNavigate("/")}
                 >
-                    <div className="sidebar-option-inner">
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/") ? "bold" : ""
+                        }`}
+                    >
                         <Dashboard />
                         <span>Dashboard</span>
                     </div>
                 </div>
                 <div
-                    className={`sidebar-option ${
-                        isCurrentPath("/patients") ? "bold" : ""
-                    }`}
-                    onClick={() => handleSidebarNavigate("/login")}
+                    className="sidebar-option"
+                    onClick={() => handleSidebarNavigate("/patients")}
                 >
-                    <div className="sidebar-option-inner">
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/patients") ? "bold" : ""
+                        }`}
+                    >
                         <Patient />
                         <span>Quản lý bệnh nhân</span>
                     </div>
                 </div>
-                <div className="sidebar-option">
-                    <div className="sidebar-option-inner">
-                        <Employee />
+                <div
+                    className="sidebar-option"
+                    onClick={() => handleSidebarNavigate("/staffs")}
+                >
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/staffs") ? "bold" : ""
+                        }`}
+                    >
+                        <Staff />
                         <span>Quản lý nhân viên</span>
                     </div>
                 </div>

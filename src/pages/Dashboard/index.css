@@ -1,0 +1,47 @@
+@import url("../../index.css");
+
+.dashboard-wrapper {
+    margin: 0 auto;
+    /* padding: var(--dashboard-padding); */
+    padding-top: var(--dashboard-padding);
+}
+
+.dashboard-stat-cards {
+    display: flex;
+    gap: 24px;
+    /* justify-content: center; */
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-block: 0 !important;
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+}
+
+.dashboard-charts {
+    margin: 32px auto;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.dashboard-charts-item {
+    box-shadow: var(--my-box-shadow);
+    width: -moz-max-content;
+    width: max-content;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    flex: 1 !important;
+}
+.dashboard-charts-item-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-top: 32px;
+}
+
+/* .dashboard-charts > div {
+    max-width: 33.33% !important;
+} */

@@ -6,8 +6,12 @@ ROUTE CONFIGURATION
 No * path is needed.
 */
 
+import AuthLayout from "../layouts/AuthLayout";
 import Dashboard from "../pages/Dashboard";
+import Staffs from "../pages/Staffs";
 import Login from "../pages/Login";
+import PatientInfo from "../pages/PatientInfo";
+import Patients from "../pages/Patients";
 
 export const routeConfig = [
     {
@@ -16,7 +20,20 @@ export const routeConfig = [
         component: <Dashboard />,
     },
     {
+        path: "patients",
+        component: <Patients />,
+    },
+    {
+        path: "staffs",
+        component: <Staffs />,
+    },
+    {
+        path: "patients/:id",
+        component: <PatientInfo />,
+    },
+    {
         path: "login",
         component: <Login />,
+        customLayout: <AuthLayout />,
     },
 ];
