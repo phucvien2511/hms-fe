@@ -28,7 +28,7 @@ const PatientInfo = memo(() => {
             "/patients/" + patientId + "/medicalRecords"
         );
         if (response.success) {
-            setMedicalRecord(response.data);
+            setMedicalRecord(response.data.appointments);
         }
     }, [patientId]);
 
