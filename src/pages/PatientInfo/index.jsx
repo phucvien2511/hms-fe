@@ -27,9 +27,7 @@ const PatientInfo = memo(() => {
         const response = await apiCall.get(
             "/patients/" + patientId + "/medicalRecords"
         );
-        // get status
         if (response.success) {
-            console.log(response.data);
             setMedicalRecord(response.data);
         }
     }, [patientId]);

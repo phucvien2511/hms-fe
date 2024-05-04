@@ -50,7 +50,7 @@ const PatientsList = memo(({ data }) => {
 
     const [sortOption, setSortOption] = useState({
         order: "asc",
-        orderBy: "id",
+        orderBy: "index",
     });
     const handleSortRequest = (property) => {
         const isAsc =
@@ -78,7 +78,7 @@ const PatientsList = memo(({ data }) => {
     const navigate = useNavigate();
     return (
         <div className="Staff-list-header">
-            {data.length > 0 && (
+            {data.length > 0 ? (
                 <TableContainer
                     style={{
                         overflowX: "initial",
@@ -196,6 +196,8 @@ const PatientsList = memo(({ data }) => {
                         }}
                     />
                 </TableContainer>
+            ) : (
+                <div>Không có dữ liệu</div>
             )}
         </div>
     );
