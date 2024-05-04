@@ -84,28 +84,6 @@ const MedicalInfo = memo(({ data }) => {
                                 }}
                             >
                                 <TableRow>
-                                    {/* <TableCell>
-                                        <TableSortLabel
-                                            active={
-                                                sortOption.orderBy ===
-                                                "appointmentId"
-                                            }
-                                            direction={
-                                                sortOption.orderBy ===
-                                                "appointmentId"
-                                                    ? sortOption.order
-                                                    : "asc"
-                                            }
-                                            onClick={() =>
-                                                handleSortRequest(
-                                                    "appointmentId"
-                                                )
-                                            }
-                                            style={{ fontWeight: 600 }}
-                                        >
-                                            Mã bệnh án
-                                        </TableSortLabel>
-                                    </TableCell> */}
                                     <TableCell>
                                         <TableSortLabel
                                             active={
@@ -134,6 +112,9 @@ const MedicalInfo = memo(({ data }) => {
                                     <TableCell style={{ fontWeight: 600 }}>
                                         Chẩn đoán
                                     </TableCell>
+                                    <TableCell style={{ fontWeight: 600 }}>
+                                        Phòng điều trị
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -144,6 +125,7 @@ const MedicalInfo = memo(({ data }) => {
                                         </TableCell>
                                         <TableCell>{row.doctor}</TableCell>
                                         <TableCell>{row.result}</TableCell>
+                                        <TableCell>{row.roomID}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

@@ -1,4 +1,5 @@
 import {
+    Alert,
     Box,
     Button,
     Checkbox,
@@ -48,15 +49,25 @@ const GeneralInfo = memo(({ data }) => {
             dateOfBirth: data?.dateOfBirth,
         });
     }, [data]);
-    console.log("formData", data);
+
     const handleChange = (e, key) => {
-        //set default data based on
-        setFormData((prev) => ({
-            ...prev,
-            [key]: e?.target.value,
-        }));
+        if (key === "healthInsurance") {
+            setFormData((prev) => ({
+                ...prev,
+                [key]: e?.target.checked,
+            }));
+        } else {
+            setFormData((prev) => ({
+                ...prev,
+                [key]: e?.target.value,
+            }));
+        }
     };
     //const [submitStatus, setSubmitStatus] = useState(false);
+    const [validate, setValidate] = useState({
+        result: -1,
+        message: "",
+    });
     const handleSubmit = async (e) => {
         const prepareBody = {
             id: formData?.id,
@@ -66,19 +77,44 @@ const GeneralInfo = memo(({ data }) => {
             gender: e?.gender.value || formData?.gender,
             phoneNumber: e?.phoneNumber.value || formData.phoneNumber,
             healthInsurance:
-                e?.healthInsurance.value || formData?.healthInsurance,
+                e?.healthInsurance.checked || formData?.healthInsurance,
             department: e?.department.value || formData?.department,
             doctorResponsibility: formData?.doctorResponsibility,
             dateOfBirth: e?.dateOfBirth.value || formData?.dateOfBirth,
         };
+
         console.log("prepareBody", prepareBody);
+        //check if phoneNumber contains alphabets
+        if (prepareBody.phoneNumber.match(/[a-z]/i)) {
+            setValidate({
+                result: 0,
+                message: "Số điện thoại không hợp lệ (Chỉ được chứa số)",
+            });
+            setTimeout(() => {
+                setValidate({
+                    result: -1,
+                    message: "",
+                });
+            }, 5000);
+            return;
+        }
+
         const apiCall = new ApiCall();
         const response = await apiCall.put(
             "/patients/" + data?.id,
             prepareBody
         );
         if (response.success) {
-            alert("Cập nhật thông tin thành công");
+            setValidate({
+                result: 1,
+                message: "",
+            });
+            setTimeout(() => {
+                setValidate({
+                    result: -1,
+                    message: "",
+                });
+            }, 5000);
         }
     };
     return (
@@ -88,7 +124,12 @@ const GeneralInfo = memo(({ data }) => {
                     ? "Cập nhật thông tin thành công"
                     : "Cập nhật thông tin thất bại"}
             </Snackbar> */}
-
+            {validate.result === 0 && (
+                <Alert severity="error">{validate.message}</Alert>
+            )}
+            {validate.result === 1 && (
+                <Alert severity="success">Cập nhật thông tin thành công</Alert>
+            )}
             <Suspense fallback={<div>Loading...</div>}>
                 {formData?.id && (
                     <form
@@ -150,8 +191,10 @@ const GeneralInfo = memo(({ data }) => {
                                 name="dateOfBirth"
                                 label="Ngày sinh"
                                 format="DD/MM/YYYY"
-                                value={dayjs(formData.dateOfBirth)}
-                                disableFuture
+                                value={dayjs(
+                                    formData.dateOfBirth,
+                                    "DD/MM/YYYY"
+                                )}
                                 slotProps={{ textField: { size: "small" } }}
                                 onChange={(value) => {
                                     setFormData((prev) => ({
@@ -165,6 +208,7 @@ const GeneralInfo = memo(({ data }) => {
                             name="phoneNumber"
                             label="Số điện thoại"
                             value={formData.phoneNumber}
+                            onChange={(e) => handleChange(e, "phoneNumber")}
                             size="small"
                             required
                         />
@@ -217,27 +261,13 @@ const GeneralInfo = memo(({ data }) => {
                             <div>Có BHYT?</div>
                             <Checkbox
                                 name="healthInsurance"
-                                // defaultChecked={data?.healthInsurance}
                                 checked={formData.healthInsurance}
+                                onChange={(e) => {
+                                    console.log(e.target.checked);
+                                    handleChange(e, "healthInsurance");
+                                }}
                             />
                         </div>
-
-                        {/* <Select
-                            labelId="patient-gender-select"
-                            id="patient-gender"
-                            value={data?.gender}
-                            label="Giới tính"
-                            size="small"
-                        >
-                            <MenuItem value={"male"}>Nam</MenuItem>
-                            <MenuItem value={"female"}>Nữ</MenuItem>
-                        </Select> */}
-                        {/* <TextField
-                            label="Có BHYT hay không"
-                            value={data?.healthInsurance}
-                            size="small"
-                            required
-                        /> */}
                         <Button type="submit" variant="contained">
                             Xác nhận
                         </Button>
