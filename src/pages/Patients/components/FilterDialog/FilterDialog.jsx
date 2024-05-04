@@ -54,6 +54,7 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                 maxWidth: "calc(100% - 48px)",
                                 width: 240,
                             }}
+                            size="small"
                         >
                             <InputLabel id="patient-department-label-dialog">
                                 Khoa phụ trách
@@ -71,7 +72,6 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                     });
                                 }}
                                 label="Khoa phụ trách"
-                                size="small"
                             >
                                 <MenuItem value="Khoa ngoại">
                                     Khoa ngoại
@@ -109,6 +109,7 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                 maxWidth: "calc(100% - 48px)",
                                 width: 240,
                             }}
+                            size="small"
                         >
                             <InputLabel id="patient-gender-label-dialog">
                                 Giới tính
@@ -126,7 +127,6 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                     });
                                 }}
                                 label="Giới tính"
-                                size="small"
                             >
                                 <MenuItem value="Nam">Nam</MenuItem>
                                 <MenuItem value="Nữ">Nữ</MenuItem>
@@ -159,6 +159,7 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                 maxWidth: "calc(100% - 48px)",
                                 width: 240,
                             }}
+                            size="small"
                         >
                             <InputLabel id="patient-healthInsurance-label-dialog">
                                 BHYT
@@ -176,7 +177,6 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                     });
                                 }}
                                 label="BHYT"
-                                size="small"
                             >
                                 <MenuItem value={true}>Có</MenuItem>
                                 <MenuItem value={false}>Không</MenuItem>

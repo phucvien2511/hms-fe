@@ -59,3 +59,27 @@
     background-color: rgba(255, 0, 0, 0.05);
     border-radius: 4px;
 }
+
+.add-patient-btn {
+    color: brown;
+    border: 2px solid brown;
+    border-radius: 8px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+}
+
+.add-patient-btn > span {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.add-patient-btn:hover {
+    cursor: pointer;
+    background-color: brown;
+    color: white;
+    transition: all 0.3s;
+}

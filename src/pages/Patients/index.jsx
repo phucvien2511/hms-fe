@@ -5,6 +5,7 @@ import PatientsList from "./components/PatientsList/PatientsList";
 import "./index.css";
 import Filter from "../../assets/icons/Filter";
 import FilterDialog from "./components/FilterDialog/FilterDialog";
+import { useNavigate } from "react-router-dom";
 
 const Patients = memo(() => {
     const [patientsData, setPatientsData] = useState([]);
@@ -81,6 +82,7 @@ const Patients = memo(() => {
 
         setSearchResult(filterHealthInsuranceData);
     };
+    const navigate = useNavigate();
     return (
         patientsData.length > 0 && (
             <div style={{ marginTop: "16px" }}>
@@ -102,6 +104,12 @@ const Patients = memo(() => {
                             gap: "8px",
                         }}
                     >
+                        <div
+                            className="add-patient-btn"
+                            onClick={() => navigate("/add-patient")}
+                        >
+                            <span>+</span>Thêm bệnh nhân
+                        </div>
                         <div
                             className="patients-filter-btn"
                             onClick={(e) => {
