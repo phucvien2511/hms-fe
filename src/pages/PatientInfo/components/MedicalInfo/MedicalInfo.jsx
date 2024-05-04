@@ -1,4 +1,5 @@
 import {
+    Alert,
     Table,
     TableBody,
     TableCell,
@@ -66,7 +67,7 @@ const MedicalInfo = memo(({ data }) => {
     return (
         <div className="patient-info-form">
             <Suspense fallback={<div>Loading...</div>}>
-                {data.length > 0 && (
+                {data.length > 0 ? (
                     <TableContainer
                         style={{
                             overflowX: "initial",
@@ -168,6 +169,14 @@ const MedicalInfo = memo(({ data }) => {
                             }}
                         /> */}
                     </TableContainer>
+                ) : (
+                    <Alert
+                        variant="outlined"
+                        severity="info"
+                        className="no-medical-records"
+                    >
+                        Không tìm thấy thông tin bệnh án của bệnh nhân này
+                    </Alert>
                 )}
             </Suspense>
         </div>

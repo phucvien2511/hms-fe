@@ -50,7 +50,7 @@ const PatientsList = memo(({ data }) => {
 
     const [sortOption, setSortOption] = useState({
         order: "asc",
-        orderBy: "id",
+        orderBy: "index",
     });
     const handleSortRequest = (property) => {
         const isAsc =
@@ -78,7 +78,7 @@ const PatientsList = memo(({ data }) => {
     const navigate = useNavigate();
     return (
         <div className="Staff-list-header">
-            {data.length > 0 && (
+            {data.length > 0 ? (
                 <TableContainer
                     style={{
                         overflowX: "initial",
@@ -136,10 +136,13 @@ const PatientsList = memo(({ data }) => {
                                     Giới tính
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
+                                    SĐT
+                                </TableCell>
+                                <TableCell style={{ fontWeight: 600 }}>
                                     Khoa khám
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
-                                    BHYT
+                                    Có BHYT?
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -165,6 +168,7 @@ const PatientsList = memo(({ data }) => {
                                     </TableCell>
                                     <TableCell>{row.birthday}</TableCell>
                                     <TableCell>{row.gender}</TableCell>
+                                    <TableCell>{row.phoneNumber}</TableCell>
                                     <TableCell>{row.department}</TableCell>
                                     <TableCell>
                                         {row.healthInsurance === true
@@ -196,6 +200,8 @@ const PatientsList = memo(({ data }) => {
                         }}
                     />
                 </TableContainer>
+            ) : (
+                <div>Không có dữ liệu</div>
             )}
         </div>
     );
