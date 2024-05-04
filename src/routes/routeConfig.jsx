@@ -12,6 +12,7 @@ import Staffs from "../pages/Staffs";
 import Login from "../pages/Login";
 import PatientInfo from "../pages/PatientInfo";
 import Patients from "../pages/Patients";
+import AddPatient from "../pages/AddPatient";
 
 export const routeConfig = [
     {
@@ -35,5 +36,9 @@ export const routeConfig = [
         path: "login",
         component: <Login />,
         customLayout: <AuthLayout />,
+    },
+    {
+        path: "add-patient",
+        component: <AddPatient />,
     },
 ];
