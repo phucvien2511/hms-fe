@@ -20,7 +20,9 @@ const Patients = memo(() => {
         // get status
         if (response.success) {
             //format patients data from response
-            response.data.map((item, index) => {
+            // console.log('+++++++++', response.data);
+            let arr = [];
+            response.data.patients.map((item, index) => {
                 const formatData = {};
                 formatData.id = item.id;
                 formatData.index = index + 1;
