@@ -17,6 +17,7 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
     const [filterFormData, setFilterFormData] = useState({
         department: "",
         gender: "",
+        healthInsurance: "",
     });
     return (
         <div>
@@ -29,6 +30,7 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                         e.preventDefault();
                         const formData = new FormData(e.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
+                        console.log("formJson", formJson);
                         onFilter(formJson);
                         onMaskClick(false);
                     },
@@ -142,8 +144,70 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                             Bỏ chọn
                         </div>
                     </Box>
+                    <Box
+                        sx={{
+                            minHeight: 80,
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-start",
+                            alignItems: "center",
+                            gap: "8px",
+                        }}
+                    >
+                        <FormControl
+                            sx={{
+                                maxWidth: "calc(100% - 48px)",
+                                width: 240,
+                            }}
+                        >
+                            <InputLabel id="patient-healthInsurance-label-dialog">
+                                BHYT
+                            </InputLabel>
+                            <Select
+                                name="healthInsurance"
+                                labelId="patient-healthInsurance-label-dialog"
+                                id="patient-healthInsurance"
+                                defaultValue={""}
+                                value={filterFormData.healthInsurance}
+                                onChange={(e) => {
+                                    setFilterFormData({
+                                        ...filterFormData,
+                                        healthInsurance: e.target.value,
+                                    });
+                                }}
+                                label="BHYT"
+                                size="small"
+                            >
+                                <MenuItem value={true}>Có</MenuItem>
+                                <MenuItem value={false}>Không</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <div
+                            className="clear-filter-dialog"
+                            onClick={() =>
+                                setFilterFormData({
+                                    ...filterFormData,
+                                    healthInsurance: "",
+                                })
+                            }
+                        >
+                            Bỏ chọn
+                        </div>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
+                    <Button
+                        style={{ color: "red" }}
+                        onClick={() =>
+                            setFilterFormData({
+                                department: "",
+                                gender: "",
+                                healthInsurance: "",
+                            })
+                        }
+                    >
+                        Bỏ chọn tất cả
+                    </Button>
                     <Button onClick={() => onMaskClick(false)}>Đóng</Button>
                     <Button type="submit">Xác nhận</Button>
                 </DialogActions>

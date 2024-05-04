@@ -136,10 +136,13 @@ const PatientsList = memo(({ data }) => {
                                     Giới tính
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
+                                    SĐT
+                                </TableCell>
+                                <TableCell style={{ fontWeight: 600 }}>
                                     Khoa khám
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
-                                    BHYT
+                                    Có BHYT?
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -165,6 +168,7 @@ const PatientsList = memo(({ data }) => {
                                     </TableCell>
                                     <TableCell>{row.birthday}</TableCell>
                                     <TableCell>{row.gender}</TableCell>
+                                    <TableCell>{row.phoneNumber}</TableCell>
                                     <TableCell>{row.department}</TableCell>
                                     <TableCell>
                                         {row.healthInsurance === true

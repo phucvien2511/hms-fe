@@ -69,7 +69,17 @@ const Patients = memo(() => {
             );
         }
 
-        setSearchResult(filterGenderData);
+        //filter by health insurance
+        let filterHealthInsuranceData = filterGenderData;
+        if (filters.healthInsurance && filters.healthInsurance !== "") {
+            const formatFilterValue =
+                filters.healthInsurance === "true" ? true : false;
+            filterHealthInsuranceData = filterGenderData.filter(
+                (item) => item.healthInsurance === formatFilterValue
+            );
+        }
+
+        setSearchResult(filterHealthInsuranceData);
     };
     return (
         patientsData.length > 0 && (
