@@ -1,36 +1,32 @@
 // import { TextField } from "@mui/material";
 
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import "./index.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GeneralInfo from "./components/GeneralInfo/GeneralInfo";
 import ApiCall from "../../apis/config";
 import MedicalInfo from "./components/MedicalInfo/MedicalInfo";
 const PatientInfo = memo(() => {
-    const patientId = useMemo(() => {
-        const path = window.location.pathname;
-        const pathParts = path.split("/")[2];
-        return pathParts;
-    }, []);
+    const { id } = useParams();
     const [patientData, setPatientData] = useState({});
     const [medicalRecord, setMedicalRecord] = useState({});
     const getPatientData = useCallback(async () => {
         const apiCall = new ApiCall();
-        const response = await apiCall.get("/patients/" + patientId);
+        const response = await apiCall.get("/patients/" + id);
         // get status
         if (response.success) {
             setPatientData(response.data);
         }
-    }, [patientId]);
+    }, [id]);
     const getMedicalRecord = useCallback(async () => {
         const apiCall = new ApiCall();
         const response = await apiCall.get(
-            "/patients/" + patientId + "/medicalRecords"
+            "/patients/" + id + "/medicalRecords"
         );
         if (response.success) {
             setMedicalRecord(response.data.appointments);
         }
-    }, [patientId]);
+    }, [id]);
 
     useEffect(() => {
         getPatientData();
@@ -44,7 +40,21 @@ const PatientInfo = memo(() => {
             </div>
             <div>Thông tin bệnh nhân</div>
             <GeneralInfo data={patientData} />
-            <div>Lịch sử bệnh án</div>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}
+            >
+                <div>Lịch sử khám</div>
+                <div
+                    className="add-medic-btn"
+                    onClick={() => navigate("/add-appointment/" + id)}
+                >
+                    <span>+</span>Thêm lượt khám
+                </div>
+            </div>
             <MedicalInfo data={medicalRecord} />
         </div>
     );

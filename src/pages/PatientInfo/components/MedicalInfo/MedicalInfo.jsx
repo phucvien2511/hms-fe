@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { Suspense, memo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MedicalInfo = memo(({ data }) => {
     // const [paginationOption, setPaginationOption] = useState({
@@ -64,6 +65,8 @@ const MedicalInfo = memo(({ data }) => {
             orderBy: property,
         }));
     };
+    const navigate = useNavigate();
+    const { id } = useParams();
     return (
         <div className="patient-info-form">
             <Suspense fallback={<div>Loading...</div>}>
@@ -119,7 +122,17 @@ const MedicalInfo = memo(({ data }) => {
                             </TableHead>
                             <TableBody>
                                 {data.map((row, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow
+                                        key={index}
+                                        onClick={() => {
+                                            navigate(
+                                                "/edit-appointment/" +
+                                                    id +
+                                                    "/" +
+                                                    row.appointmentId
+                                            );
+                                        }}
+                                    >
                                         <TableCell align="left">
                                             {row.appointmentTime}
                                         </TableCell>

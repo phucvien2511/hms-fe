@@ -13,6 +13,8 @@ import Login from "../pages/Login";
 import PatientInfo from "../pages/PatientInfo";
 import Patients from "../pages/Patients";
 import AddPatient from "../pages/AddPatient";
+import AddAppointment from "../pages/AddAppointment";
+import EditAppointment from "../pages/EditAppointment";
 
 export const routeConfig = [
     {
@@ -40,5 +42,13 @@ export const routeConfig = [
     {
         path: "add-patient",
         component: <AddPatient />,
+    },
+    {
+        path: "add-appointment/:id",
+        component: <AddAppointment />,
+    },
+    {
+        path: "edit-appointment/:pid/:id",
+        component: <EditAppointment />,
     },
 ];
