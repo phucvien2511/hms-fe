@@ -5,21 +5,35 @@ import PatientsList from "./components/PatientsList/PatientsList";
 import "./index.css";
 import Filter from "../../assets/icons/Filter";
 import FilterDialog from "./components/FilterDialog/FilterDialog";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Patients = memo(() => {
     const [patientsData, setPatientsData] = useState([]);
+    const [paginationData, setPaginationData] = useState({});
     const [searchResult, setSearchResult] = useState([]); // new state for search results
     const [searchValue, setSearchValue] = useState(""); // new state for search value
     const [filterValue, setFilterValue] = useState({}); // new state for filter value
     const [dialogOpen, setDialogOpen] = useState(false);
     const [numFilter, setNumFilter] = useState(0);
-    const getPatientsData = useCallback(async () => {
+    const [searchParams, setSearchParams] = useSearchParams(); // new state for search params
+    const getPatientsData = useCallback(async (paginationOption) => {
+        // check if paginationOption is provided
+        let endpoint = "/patients";
+        if (paginationOption.page) {
+            endpoint += "?currentPage=" + paginationOption.page;
+        }
+        if (paginationOption.pageSize) {
+            endpoint += "&pageSize=" + paginationOption.pageSize;
+        }
+
         const apiCall = new ApiCall();
-        const response = await apiCall.get("/patients");
+        const response = await apiCall.get(endpoint);
         // get status
         if (response.success) {
             //format patients data from response
+            setPatientsData([]);
+            setSearchResult([]);
+            //console.log(response.data.patients);
             response.data.patients.map((item, index) => {
                 const formatData = {};
                 formatData.id = item.id;
@@ -31,6 +45,14 @@ const Patients = memo(() => {
                 formatData.phoneNumber = item.phoneNumber;
                 setPatientsData((prevData) => [...prevData, formatData]);
                 setSearchResult((prevData) => [...prevData, formatData]);
+                //setPatientsData(formatData);
+                //setSearchResult(formatData);
+            });
+            setPaginationData({
+                totalPage: response.data.totalPage,
+                currentPage: response.data.currentPage,
+                pageSize: response.data.pageSize,
+                totalRow: response.data.totalRow,
             });
 
             // response.data[0].map((item, index) => {
@@ -47,8 +69,12 @@ const Patients = memo(() => {
         }
     }, []);
     useEffect(() => {
-        getPatientsData();
-    }, [getPatientsData]);
+        //get page parameter from url
+        getPatientsData({
+            page: searchParams.get("currentPage") || 1,
+            pageSize: searchParams.get("pageSize") || 10,
+        });
+    }, [searchParams, getPatientsData]);
     const handleSearchAndFilter = (searchValue, filters) => {
         //search by name
         const searchData = patientsData.filter((item) =>
@@ -142,7 +168,23 @@ const Patients = memo(() => {
                         handleSearchAndFilter(searchValue, data);
                     }}
                 />
-                <PatientsList data={searchResult} />
+                <PatientsList
+                    data={searchResult}
+                    paginationData={paginationData}
+                    onPaginate={(option) => {
+                        //append page parameter to url
+                        setSearchParams({
+                            currentPage:
+                                option.page ||
+                                searchParams.get("currentPage") ||
+                                1,
+                            pageSize:
+                                option.pageSize ||
+                                searchParams.get("pageSize") ||
+                                10,
+                        });
+                    }}
+                />
             </div>
         )
     );
