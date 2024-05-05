@@ -25,13 +25,12 @@ const AddPatient = memo(() => {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
-        gender: "",
+        gender: "male",
         dateOfBirth: "06/05/2024",
         phoneNumber: "",
         department: "",
-        healthInsurance: null,
+        healthInsurance: true,
         doctorResponsibility: "",
-        age: "",
     });
     const getAvailableDoctors = async (department) => {
         const apiCall = new ApiCall();
@@ -44,11 +43,16 @@ const AddPatient = memo(() => {
             setAvailableDoctors(filteredDoctors);
         }
     };
+    const toBoolean = (value) => {
+        if (value === "true") return true;
+        else if (value === "false") return false;
+        return value;
+    };
     const handleChange = (e, key) => {
         console.log(e?.target.value);
         setFormData((prev) => ({
             ...prev,
-            [key]: e?.target.value,
+            [key]: toBoolean(e?.target.value),
         }));
     };
     const [validate, setValidate] = useState({
@@ -59,7 +63,6 @@ const AddPatient = memo(() => {
         const prepareBody = {
             firstName: e?.firstName.value || formData?.firstName,
             lastName: e?.lastName.value || formData?.lastName,
-            age: 100,
             gender: e?.gender.value || formData?.gender,
             phoneNumber: e?.phoneNumber.value || formData.phoneNumber,
             healthInsurance:
@@ -88,7 +91,7 @@ const AddPatient = memo(() => {
                 dateOfBirth: "",
                 phoneNumber: "",
                 department: "",
-                healthInsurance: "",
+                healthInsurance: null,
                 doctorResponsibility: "",
             });
         }
@@ -224,12 +227,12 @@ const AddPatient = memo(() => {
                                 }
                             >
                                 <FormControlLabel
-                                    value={true}
+                                    value="true"
                                     control={<Radio />}
                                     label="Khám BHYT"
                                 />
                                 <FormControlLabel
-                                    value={false}
+                                    value="false"
                                     control={<Radio />}
                                     label="Khám dịch vụ"
                                 />

@@ -40,7 +40,6 @@ const GeneralInfo = memo(({ data }) => {
             id: data?.id,
             firstName: data?.firstName,
             lastName: data?.lastName,
-            age: data?.age,
             gender: data?.gender,
             phoneNumber: data?.phoneNumber,
             healthInsurance: data?.healthInsurance,
@@ -73,7 +72,6 @@ const GeneralInfo = memo(({ data }) => {
             id: formData?.id,
             firstName: e?.firstName.value || formData?.firstName,
             lastName: e?.lastName.value || formData?.lastName,
-            age: formData?.age,
             gender: e?.gender.value || formData?.gender,
             phoneNumber: e?.phoneNumber.value || formData.phoneNumber,
             healthInsurance:
