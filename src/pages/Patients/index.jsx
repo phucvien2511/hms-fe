@@ -8,22 +8,52 @@ import FilterDialog from "./components/FilterDialog/FilterDialog";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Patients = memo(() => {
+    const [searchParams, setSearchParams] = useSearchParams(); // new state for search params
     const [patientsData, setPatientsData] = useState([]);
     const [paginationData, setPaginationData] = useState({});
     const [searchResult, setSearchResult] = useState([]); // new state for search results
-    const [searchValue, setSearchValue] = useState(""); // new state for search value
-    const [filterValue, setFilterValue] = useState({}); // new state for filter value
+    const [searchValue, setSearchValue] = useState(searchParams.get("name")); // new state for search value
+    const [filterValue, setFilterValue] = useState({
+        gender: searchParams.get("gender"),
+        healthInsurance: searchParams.get("healthInsurance"),
+    }); // new state for filter value
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [numFilter, setNumFilter] = useState(0);
-    const [searchParams, setSearchParams] = useSearchParams(); // new state for search params
-    const getPatientsData = useCallback(async (paginationOption) => {
+    const [numFilter, setNumFilter] = useState(
+        //count how many filters are applied
+        Object.values(filterValue).filter((value) => value && value !== "")
+            .length
+    );
+
+    const getPatientsData = useCallback(async () => {
         // check if paginationOption is provided
         let endpoint = "/patients";
-        if (paginationOption.page) {
-            endpoint += "?currentPage=" + paginationOption.page;
+        if (searchParams) {
+            endpoint += "?";
         }
-        if (paginationOption.pageSize) {
-            endpoint += "&pageSize=" + paginationOption.pageSize;
+        if (searchParams.get("currentPage")) {
+            endpoint += "&currentPage=" + searchParams.get("currentPage");
+        }
+        if (searchParams.get("pageSize")) {
+            endpoint += "&pageSize=" + searchParams.get("pageSize");
+        }
+        if (searchParams.get("gender")) {
+            endpoint +=
+                "&gender=" + searchParams.get("gender") + "&currentPage=1";
+        }
+        if (searchParams.get("healthInsurance")) {
+            endpoint +=
+                "&healthInsurance=" +
+                searchParams.get("healthInsurance") +
+                "&currentPage=1&";
+        }
+        if (searchParams.get("name")) {
+            endpoint += "&name=" + searchParams.get("name") + "&currentPage=1";
+        }
+        if (searchParams.get("sortBy")) {
+            endpoint += "&sortBy=" + searchParams.get("sortBy");
+        }
+        if (searchParams.get("sortOrder")) {
+            endpoint += "&sortOrder=" + searchParams.get("sortOrder");
         }
 
         const apiCall = new ApiCall();
@@ -54,139 +84,175 @@ const Patients = memo(() => {
                 pageSize: response.data.pageSize,
                 totalRow: response.data.totalRow,
             });
-
-            // response.data[0].map((item, index) => {
-            //     item.id = index + 1;
-            //     item.firstName = item.first;
-            //     item.lastName = item.last;
-            //     item.fullName = item.first + " " + item.last;
-            //     item.birthday = item.created;
-            //     item.admissionDate = "now";
-            //     item.dischargeDate = "then";
-            //     item.department = getRandomDepartment();
-            //     return item;
-            // });
         }
-    }, []);
+    }, [searchParams]);
     useEffect(() => {
         //get page parameter from url
-        getPatientsData({
-            page: searchParams.get("currentPage") || 1,
-            pageSize: searchParams.get("pageSize") || 10,
-        });
+        getPatientsData();
     }, [searchParams, getPatientsData]);
     const handleSearchAndFilter = (searchValue, filters) => {
         //search by name
-        const searchData = patientsData.filter((item) =>
-            item.fullName.toLowerCase().includes(searchValue.toLowerCase())
-        );
-
+        const urlSearchParams = new URLSearchParams(searchParams);
+        if (searchValue && searchValue.length > 0)
+            urlSearchParams.set("name", searchValue);
+        else urlSearchParams.delete("name");
         //filter by gender
-        let filterGenderData = searchData;
+        //let filterGenderData = searchData;
         if (filters.gender && filters.gender !== "") {
-            filterGenderData = searchData.filter(
-                (item) => item.gender === filters.gender
+            urlSearchParams.set(
+                "gender",
+                filters.gender === "Nam" ? "male" : "female"
             );
+        } else {
+            urlSearchParams.delete("gender");
         }
-
-        //filter by health insurance
-        let filterHealthInsuranceData = filterGenderData;
         if (filters.healthInsurance && filters.healthInsurance !== "") {
-            const formatFilterValue =
-                filters.healthInsurance === "true" ? true : false;
-            filterHealthInsuranceData = filterGenderData.filter(
-                (item) => item.healthInsurance === formatFilterValue
-            );
+            urlSearchParams.set("healthInsurance", filters.healthInsurance);
+        } else {
+            urlSearchParams.delete("healthInsurance");
         }
 
-        setSearchResult(filterHealthInsuranceData);
+        //sortOrder and sortBy
+        if (searchParams.get("sortOrder")) {
+            urlSearchParams.set("sortOrder", searchParams.get("sortOrder"));
+        } else {
+            urlSearchParams.delete("sortOrder");
+        }
+        if (searchParams.get("sortBy")) {
+            urlSearchParams.set("sortBy", searchParams.get("sortBy"));
+        } else {
+            urlSearchParams.delete("sortBy");
+        }
+        setSearchParams(urlSearchParams.toString());
+
+        //setSearchResult(filterHealthInsuranceData);
     };
     const navigate = useNavigate();
     return (
-        patientsData.length > 0 && (
-            <div style={{ marginTop: "16px" }}>
+        <div style={{ marginTop: "16px" }}>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}
+            >
+                <div style={{ color: "brown", fontSize: "24px" }}>
+                    Danh sách bệnh nhân
+                </div>
                 <div
                     style={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
+                        gap: "8px",
                     }}
                 >
-                    <div style={{ color: "brown", fontSize: "24px" }}>
-                        Danh sách bệnh nhân
+                    <div
+                        className="add-patient-btn"
+                        onClick={() => navigate("/add-patient")}
+                    >
+                        <span>+</span>Thêm bệnh nhân
                     </div>
                     <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: "8px",
+                        className="patients-filter-btn"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            console.log("clicked");
+                            setDialogOpen(true);
                         }}
                     >
-                        <div
-                            className="add-patient-btn"
-                            onClick={() => navigate("/add-patient")}
-                        >
-                            <span>+</span>Thêm bệnh nhân
-                        </div>
-                        <div
-                            className="patients-filter-btn"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                console.log("clicked");
-                                setDialogOpen(true);
-                            }}
-                        >
-                            <Filter />
-                            Lọc
-                            {numFilter > 0 && <span>{numFilter}</span>}
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Tìm kiếm tên bệnh nhân"
-                            onChange={(e) => {
-                                setSearchValue(e.target.value);
-                                handleSearchAndFilter(
-                                    e.target.value,
-                                    filterValue
-                                );
-                            }}
-                            className="patient-search"
-                        />
+                        <Filter />
+                        Lọc
+                        {numFilter > 0 && <span>{numFilter}</span>}
                     </div>
+                    <input
+                        type="text"
+                        placeholder="Tìm kiếm tên bệnh nhân"
+                        onChange={(e) => {
+                            setSearchValue(e.target.value);
+                            handleSearchAndFilter(e.target.value, filterValue);
+                        }}
+                        value={searchValue}
+                        className="patient-search"
+                    />
                 </div>
-                <FilterDialog
-                    open={dialogOpen}
-                    onMaskClick={(state) => setDialogOpen(state)}
-                    onFilter={(data) => {
-                        //set how many filters are applied (ignore value '')
-                        setNumFilter(
-                            Object.values(data).filter((value) => value !== "")
-                                .length
-                        );
-                        setFilterValue(data);
-                        handleSearchAndFilter(searchValue, data);
-                    }}
-                />
+            </div>
+            <FilterDialog
+                open={dialogOpen}
+                onMaskClick={(state) => setDialogOpen(state)}
+                onFilter={(data) => {
+                    //set how many filters are applied (ignore value '')
+                    setNumFilter(
+                        Object.values(data).filter((value) => value !== "")
+                            .length
+                    );
+                    setFilterValue(data);
+                    handleSearchAndFilter(searchValue, data);
+                }}
+            />
+            {patientsData.length > 0 ? (
                 <PatientsList
                     data={searchResult}
                     paginationData={paginationData}
                     onPaginate={(option) => {
-                        //append page parameter to url
-                        setSearchParams({
-                            currentPage:
-                                option.page ||
-                                searchParams.get("currentPage") ||
-                                1,
-                            pageSize:
-                                option.pageSize ||
-                                searchParams.get("pageSize") ||
-                                10,
-                        });
+                        // Get the current search params
+                        const currentSearchParams = new URLSearchParams(
+                            searchParams
+                        );
+
+                        // Set the new currentPage parameter
+                        const currentPage =
+                            option.page ||
+                            currentSearchParams.get("currentPage") ||
+                            1;
+                        currentSearchParams.set("currentPage", currentPage);
+
+                        // Set the new pageSize parameter
+                        const pageSize =
+                            option.pageSize ||
+                            currentSearchParams.get("pageSize") ||
+                            10;
+                        currentSearchParams.set("pageSize", pageSize);
+
+                        // Get the updated search params string
+                        const updatedSearchParams =
+                            currentSearchParams.toString();
+
+                        // Update the search params
+                        setSearchParams(updatedSearchParams);
+                    }}
+                    onSort={(option) => {
+                        // Get the current search params
+                        const currentSearchParams = new URLSearchParams(
+                            searchParams
+                        );
+
+                        // Set the new sort parameter
+                        const sortOrder =
+                            option.sortOrder ||
+                            currentSearchParams.get("sortOrder") ||
+                            "asc";
+
+                        currentSearchParams.set("sortOrder", sortOrder);
+                        const sortBy =
+                            option.sortBy ||
+                            currentSearchParams.get("sortBy") ||
+                            "name";
+
+                        currentSearchParams.set("sortBy", sortBy);
+                        // Get the updated search params string
+                        const updatedSearchParams =
+                            currentSearchParams.toString();
+
+                        // Update the search params
+                        setSearchParams(updatedSearchParams);
                     }}
                 />
-            </div>
-        )
+            ) : (
+                <div>Không có dữ liệu</div>
+            )}
+        </div>
     );
 });
 
