@@ -12,12 +12,13 @@ import {
     MenuItem,
     Select,
 } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
 const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
     // const [dialogOpen, setDialogOpen] = useState(open);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [filterFormData, setFilterFormData] = useState({
-        department: "",
-        gender: "",
-        healthInsurance: "",
+        gender: searchParams.get("gender"),
+        healthInsurance: searchParams.get("healthInsurance"),
     });
     return (
         <div>
@@ -63,7 +64,6 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                                 name="gender"
                                 labelId="patient-gender-label-dialog"
                                 id="patient-gender"
-                                defaultValue={""}
                                 value={filterFormData.gender}
                                 onChange={(e) => {
                                     setFilterFormData({

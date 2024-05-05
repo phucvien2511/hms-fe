@@ -9,38 +9,11 @@ import TableRow from "@mui/material/TableRow";
 // import Paper from "@mui/material/Paper";
 import { TablePagination, TableSortLabel } from "@mui/material";
 
-import "./PatientsList.css";
+//import "./EquipmentsList.css";
 import { useNavigate } from "react-router-dom";
 
-const PatientsList = memo(({ data, paginationData, onPaginate, onSort }) => {
+const EquipmentsList = memo(({ data, paginationData, onPaginate }) => {
     console.log("data", data);
-    // const handlePageChange = useCallback((e, newPage) => {
-    //     setPaginationOption((prevState) => ({
-    //         ...prevState,
-    //         page: newPage,
-    //     }));
-    // }, []);
-
-    // const handleRowsPerPageChange = useCallback((e) => {
-    //     setPaginationOption((prevState) => ({
-    //         ...prevState,
-    //         page: 0,
-    //         rowsPerPage: Number(e.target.value),
-    //     }));
-    // }, []);
-    // Slice data to display on table
-    // Will implement different logic when backend pagination is available
-    // const sliceData = useCallback(
-    //     (data) => {
-    //         return data.slice(
-    //             paginationOption.page * paginationOption.rowsPerPage,
-    //             paginationOption.page * paginationOption.rowsPerPage +
-    //                 paginationOption.rowsPerPage
-    //         );
-    //     },
-    //     [paginationOption.page, paginationOption.rowsPerPage]
-    // );
-
     const [sortOption, setSortOption] = useState({
         order: "asc",
         orderBy: "index",
@@ -56,19 +29,17 @@ const PatientsList = memo(({ data, paginationData, onPaginate, onSort }) => {
             ...prev,
             orderBy: property,
         }));
-        if (property === "fullName")
-            onSort({ sortOrder: isAsc ? "desc" : "asc", sortBy: "name" });
     };
 
-    // const sortedData = [...data].sort((a, b) => {
-    //     let comparison = 0;
-    //     if (a[sortOption.orderBy] > b[sortOption.orderBy]) {
-    //         comparison = 1;
-    //     } else if (a[sortOption.orderBy] < b[sortOption.orderBy]) {
-    //         comparison = -1;
-    //     }
-    //     return sortOption.order === "asc" ? comparison : -comparison;
-    // });
+    const sortedData = [...data].sort((a, b) => {
+        let comparison = 0;
+        if (a[sortOption.orderBy] > b[sortOption.orderBy]) {
+            comparison = 1;
+        } else if (a[sortOption.orderBy] < b[sortOption.orderBy]) {
+            comparison = -1;
+        }
+        return sortOption.order === "asc" ? comparison : -comparison;
+    });
 
     const navigate = useNavigate();
     return (
@@ -90,7 +61,22 @@ const PatientsList = memo(({ data, paginationData, onPaginate, onSort }) => {
                             }}
                         >
                             <TableRow>
-                                <TableCell>STT</TableCell>
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={sortOption.orderBy === "index"}
+                                        direction={
+                                            sortOption.orderBy === "index"
+                                                ? sortOption.order
+                                                : "asc"
+                                        }
+                                        onClick={() =>
+                                            handleSortRequest("index")
+                                        }
+                                        style={{ fontWeight: 600 }}
+                                    >
+                                        STT
+                                    </TableSortLabel>
+                                </TableCell>
                                 <TableCell>
                                     <TableSortLabel
                                         active={
@@ -106,20 +92,17 @@ const PatientsList = memo(({ data, paginationData, onPaginate, onSort }) => {
                                         }
                                         style={{ fontWeight: 600 }}
                                     >
-                                        Họ và tên
+                                        Tên
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
-                                    Ngày sinh
+                                    Giá vật tư
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
-                                    Giới tính
+                                    Sẵn sàng để dùng
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
-                                    SĐT
-                                </TableCell>
-                                <TableCell style={{ fontWeight: 600 }}>
-                                    Có BHYT?
+                                    Tình trạng
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -144,17 +127,18 @@ const PatientsList = memo(({ data, paginationData, onPaginate, onSort }) => {
                                                 paginationData.pageSize}
                                     </TableCell>
                                     <TableCell align="left">
-                                        {/* {row.firstName + " " + row.lastName} */}
-                                        {row.fullName}
+                                        {row.name}
                                     </TableCell>
-                                    <TableCell>{row.birthday}</TableCell>
-                                    <TableCell>{row.gender}</TableCell>
-                                    <TableCell>{row.phoneNumber}</TableCell>
                                     <TableCell>
-                                        {row.healthInsurance === true
-                                            ? "Có"
-                                            : "Không"}
+                                        {row.cost
+                                            .toString()
+                                            .replace(
+                                                /\B(?=(\d{3})+(?!\d))/g,
+                                                ","
+                                            )}
                                     </TableCell>
+                                    <TableCell>{row.availability}</TableCell>
+                                    <TableCell>{row.condition}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -197,14 +181,13 @@ const PatientsList = memo(({ data, paginationData, onPaginate, onSort }) => {
 
 // Prop types validation
 // Ref: https://www.npmjs.com/package/prop-types
-PatientsList.propTypes = {
+EquipmentsList.propTypes = {
     data: PropTypes.array,
     paginationData: PropTypes.object,
     onPaginate: PropTypes.func,
-    onSort: PropTypes.func,
 };
 
 // Display name for fast refresh using memo
-PatientsList.displayName = "PatientsList";
+EquipmentsList.displayName = "EquipmentsList";
 
-export default PatientsList;
+export default EquipmentsList;
