@@ -56,61 +56,6 @@ const FilterDialog = memo(({ open, onMaskClick, onFilter }) => {
                             }}
                             size="small"
                         >
-                            <InputLabel id="patient-department-label-dialog">
-                                Khoa phụ trách
-                            </InputLabel>
-                            <Select
-                                name="department"
-                                labelId="patient-department-label-dialog"
-                                id="patient-department"
-                                //defaultValue={data?.department}
-                                value={filterFormData.department}
-                                onChange={(e) => {
-                                    setFilterFormData({
-                                        ...filterFormData,
-                                        department: e.target.value,
-                                    });
-                                }}
-                                label="Khoa phụ trách"
-                            >
-                                <MenuItem value="Khoa ngoại">
-                                    Khoa ngoại
-                                </MenuItem>
-                                <MenuItem value="Khoa nội">Khoa nội</MenuItem>
-                                <MenuItem value="Khoa sản">Khoa sản</MenuItem>
-                                <MenuItem value="Khoa nhi">Khoa nhi</MenuItem>
-                                <MenuItem value="Khoa mắt">Khoa mắt</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <div
-                            className="clear-filter-dialog"
-                            onClick={() =>
-                                setFilterFormData({
-                                    ...filterFormData,
-                                    department: "",
-                                })
-                            }
-                        >
-                            Bỏ chọn
-                        </div>
-                    </Box>
-                    <Box
-                        sx={{
-                            minHeight: 80,
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "flex-start",
-                            alignItems: "center",
-                            gap: "8px",
-                        }}
-                    >
-                        <FormControl
-                            sx={{
-                                maxWidth: "calc(100% - 48px)",
-                                width: 240,
-                            }}
-                            size="small"
-                        >
                             <InputLabel id="patient-gender-label-dialog">
                                 Giới tính
                             </InputLabel>
