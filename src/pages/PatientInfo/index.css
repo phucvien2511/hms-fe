@@ -24,3 +24,32 @@
 .no-medical-reports {
     max-width: calc(100vw - 48px);
 }
+
+.add-medic-btn {
+    color: brown;
+    border: 2px solid brown;
+    border-radius: 8px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+}
+
+.add-medic-btn > span {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.add-medic-btn:hover {
+    cursor: pointer;
+    background-color: brown;
+    color: white;
+    transition: all 0.3s;
+}
+
+.medic-table-row:hover {
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+}
