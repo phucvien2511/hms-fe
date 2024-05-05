@@ -1,0 +1,22 @@
+@import url("../../index.css");
+
+.medicine-info-wrapper {
+    margin-top: 24px;
+}
+.nav {
+    color: blue;
+    font-weight: 500;
+}
+
+.nav:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.medicine-info-form {
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}

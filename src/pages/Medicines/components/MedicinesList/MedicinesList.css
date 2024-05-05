@@ -2,7 +2,7 @@
     min-height: calc(100% - 48px);
     bottom: 0;
 } */
-.equipment-table-row:hover {
+.medicine-table-row:hover {
     cursor: pointer;
     background: rgb(240, 240, 240);
 }
