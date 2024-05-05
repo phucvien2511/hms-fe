@@ -18,6 +18,10 @@ import EditAppointment from "../pages/EditAppointment";
 import Equipment from "../pages/Equipment";
 import AddEquipment from "../pages/AddEquipment";
 import EquipmentInfo from "../pages/EquipmentInfo";
+import Medicines from "../pages/Medicines";
+import AddMedicine from "../pages/AddMedicine";
+import MedicineInfo from "../pages/MedicineInfo";
+
 
 export const routeConfig = [
     {
@@ -65,5 +69,17 @@ export const routeConfig = [
     {
         path: "equipments/:id",
         component: <EquipmentInfo />,
+    },
+    {
+        path: "medicines",
+        component: <Medicines />,
+    },
+    {
+        path: "add-medicine",
+        component: <AddMedicine />,
+    },
+    {
+        path: "medicines/:id",
+        component: <MedicineInfo />,
     },
 ];

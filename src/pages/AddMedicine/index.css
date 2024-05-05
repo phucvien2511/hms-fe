@@ -1,0 +1,21 @@
+.add-medicine-form {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 16px;
+    max-width: 50%;
+}
+
+.form-line {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    height: 40px;
+    padding-bottom: 16px;
+    padding-top: 8px;
+}
+
+.form-line.no-gap {
+    gap: 0 !important;
+}

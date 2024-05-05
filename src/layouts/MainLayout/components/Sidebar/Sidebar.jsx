@@ -64,10 +64,16 @@ const Sidebar = memo(({ open, onMaskClick }) => {
                         <span>Quản lý nhân viên</span>
                     </div>
                 </div>
-                <div className="sidebar-option">
-                    <div className="sidebar-option-inner">
+                <div className="sidebar-option"
+                    onClick={() => handleSidebarNavigate("/medicines")}
+                >
+                    <div
+                        className={`sidebar-option-inner ${
+                            isCurrentPath("/medicines") ? "bold" : ""
+                        }`}
+                    >
                         <Medicine />
-                        <span>Quản lý thuốc</span>
+                        <span>Quản lý thuốc men</span>
                     </div>
                 </div>
                 <div className="sidebar-option"
