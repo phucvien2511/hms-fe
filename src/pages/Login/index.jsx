@@ -18,7 +18,11 @@ function loginInfoReducer(state, action) {
             return state;
     }
 }
-
+const accountList = [
+    { username: "admin", password: "admin" },
+    { username: "btl", password: "12345" },
+    { username: "vmp2511", password: "12345" },
+];
 async function handleLogin(
     loginInfo,
     setLoading,
@@ -27,21 +31,43 @@ async function handleLogin(
     setError
 ) {
     // try to login through a fetch request, if success, navigate to home if fail do nothing
+    //check if username and password are
     if (loginInfo.username !== "" && loginInfo.password !== "") {
         setLoading(true);
         //let skip = false;
-        if (loginInfo.username === "admin" && loginInfo.password === "admin") {
-            setLoading(false);
-            removeCookie("user", { path: "/" });
-            setCookie(
-                "user",
-                { username: "admin", password: "admin" },
-                { path: "/" }
-            );
-        } else {
-            setLoading(false);
-            setError(true);
+        //check if match account in accountList
+        for (let i = 0; i < accountList.length; i++) {
+            if (
+                loginInfo.username === accountList[i].username &&
+                loginInfo.password === accountList[i].password
+            ) {
+                setLoading(false);
+                removeCookie("user", { path: "/" });
+                setCookie(
+                    "user",
+                    {
+                        username: loginInfo.username,
+                        password: loginInfo.password,
+                    },
+                    { path: "/" }
+                );
+            } else {
+                setLoading(false);
+                setError(true);
+            }
         }
+        //if (loginInfo.username === "admin" && loginInfo.password === "admin") {
+        //     setLoading(false);
+        //     removeCookie("user", { path: "/" });
+        //     setCookie(
+        //         "user",
+        //         { username: "admin", password: "admin" },
+        //         { path: "/" }
+        //     );
+        // } else {
+        //     setLoading(false);
+        //     setError(true);
+        // }
         // const authApi = new AuthApi(); // Create an instance of AuthApi
 
         // try {
