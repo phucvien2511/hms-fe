@@ -3,11 +3,8 @@ import {
     Button,
     FormControl,
     FormControlLabel,
-    InputLabel,
-    MenuItem,
     Radio,
     RadioGroup,
-    Select,
     TextField,
 } from "@mui/material";
 import { Suspense, memo, useState } from "react";
@@ -21,28 +18,15 @@ import { useNavigate } from "react-router-dom";
 //import PropsTypes from "prop-types";
 
 const AddPatient = memo(() => {
-    const [availableDoctors, setAvailableDoctors] = useState([]);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
         gender: "male",
         dateOfBirth: "06/05/2024",
         phoneNumber: "",
-        department: "",
         healthInsurance: true,
-        doctorResponsibility: "",
     });
-    const getAvailableDoctors = async (department) => {
-        const apiCall = new ApiCall();
-        const response = await apiCall.get("/staff/doctors");
-        if (response.success) {
-            const filteredDoctors = response.data.doctors.filter(
-                (doctor) =>
-                    doctor.department === department && doctor.absence === false
-            );
-            setAvailableDoctors(filteredDoctors);
-        }
-    };
+
     const toBoolean = (value) => {
         if (value === "true") return true;
         else if (value === "false") return false;
@@ -67,9 +51,6 @@ const AddPatient = memo(() => {
             phoneNumber: e?.phoneNumber.value || formData.phoneNumber,
             healthInsurance:
                 e?.healthInsurance.value || formData?.healthInsurance,
-            department: e?.department.value || formData?.department,
-            doctorResponsibility:
-                e?.doctorResponsibility.value || formData?.doctorResponsibility,
             dateOfBirth: e?.dateOfBirth.value || formData?.dateOfBirth,
         };
         if (prepareBody.phoneNumber.match(/[a-z]/i)) {
@@ -90,9 +71,7 @@ const AddPatient = memo(() => {
                 gender: "",
                 dateOfBirth: "",
                 phoneNumber: "",
-                department: "",
                 healthInsurance: null,
-                doctorResponsibility: "",
             });
         }
     };
@@ -188,35 +167,6 @@ const AddPatient = memo(() => {
                     </div>
                     <div>Thông tin khám chữa bệnh</div>
                     <div className="form-line">
-                        <FormControl
-                            fullWidth
-                            //sx={{ minWidth: 200 }}
-                            size="small"
-                            required
-                        >
-                            <InputLabel id="patient-department-label">
-                                Khoa phụ trách
-                            </InputLabel>
-                            <Select
-                                name="department"
-                                labelId="patient-department-label"
-                                id="patient-department"
-                                value={formData.department}
-                                onChange={(e) => {
-                                    getAvailableDoctors(e.target.value);
-                                    handleChange(e, "department");
-                                }}
-                                label="Khoa phụ trách"
-                            >
-                                <MenuItem value="Khoa ngoại">
-                                    Khoa ngoại
-                                </MenuItem>
-                                <MenuItem value="Khoa nội">Khoa nội</MenuItem>
-                                <MenuItem value="Khoa sản">Khoa sản</MenuItem>
-                                <MenuItem value="Khoa nhi">Khoa nhi</MenuItem>
-                                <MenuItem value="Khoa mắt">Khoa mắt</MenuItem>
-                            </Select>
-                        </FormControl>
                         <FormControl fullWidth>
                             <RadioGroup
                                 row
@@ -237,48 +187,6 @@ const AddPatient = memo(() => {
                                     label="Khám dịch vụ"
                                 />
                             </RadioGroup>
-                        </FormControl>
-                    </div>
-                    <div className="form-line">
-                        <FormControl
-                            fullWidth
-                            //sx={{ minWidth: 200 }}
-                            size="small"
-                            required
-                            value={formData.doctorResponsibility}
-                        >
-                            <InputLabel id="patient-doctor-label">
-                                BS phụ trách
-                            </InputLabel>
-                            <Select
-                                name="doctorResponsibility"
-                                labelId="patient-doctor-label"
-                                id="patient-doctor"
-                                //defaultValue={data?.department}                              value={formData.department}
-                                onChange={(e) =>
-                                    handleChange(e, "doctorResponsibility")
-                                }
-                                label="BS phụ trách"
-                                //value={availableDoctors[0]?.id}
-                                //size="small"
-                            >
-                                {availableDoctors.length > 0 ? (
-                                    availableDoctors.map((doctor) => (
-                                        <MenuItem
-                                            key={doctor.id}
-                                            value={doctor.id}
-                                        >
-                                            {doctor.lastName +
-                                                " " +
-                                                doctor.firstName}
-                                        </MenuItem>
-                                    ))
-                                ) : (
-                                    <MenuItem value={null} disabled>
-                                        --Không có BS để phân công--
-                                    </MenuItem>
-                                )}
-                            </Select>
                         </FormControl>
                     </div>
                     {validate.result === 0 && (

@@ -139,9 +139,6 @@ const PatientsList = memo(({ data }) => {
                                     SĐT
                                 </TableCell>
                                 <TableCell style={{ fontWeight: 600 }}>
-                                    Khoa khám
-                                </TableCell>
-                                <TableCell style={{ fontWeight: 600 }}>
                                     Có BHYT?
                                 </TableCell>
                             </TableRow>
@@ -169,7 +166,6 @@ const PatientsList = memo(({ data }) => {
                                     <TableCell>{row.birthday}</TableCell>
                                     <TableCell>{row.gender}</TableCell>
                                     <TableCell>{row.phoneNumber}</TableCell>
-                                    <TableCell>{row.department}</TableCell>
                                     <TableCell>
                                         {row.healthInsurance === true
                                             ? "Có"

@@ -43,7 +43,6 @@ const GeneralInfo = memo(({ data }) => {
             gender: data?.gender,
             phoneNumber: data?.phoneNumber,
             healthInsurance: data?.healthInsurance,
-            department: data?.department,
             doctorResponsibility: data?.doctorResponsibility,
             dateOfBirth: data?.dateOfBirth,
         });
@@ -76,7 +75,6 @@ const GeneralInfo = memo(({ data }) => {
             phoneNumber: e?.phoneNumber.value || formData.phoneNumber,
             healthInsurance:
                 e?.healthInsurance.checked || formData?.healthInsurance,
-            department: e?.department.value || formData?.department,
             doctorResponsibility: formData?.doctorResponsibility,
             dateOfBirth: e?.dateOfBirth.value || formData?.dateOfBirth,
         };
@@ -174,13 +172,6 @@ const GeneralInfo = memo(({ data }) => {
                                 </Select>
                             </FormControl>
                         </Box>
-                        {/* <TextField
-                            name="dateOfBirth"
-                            label="Ngày sinh"
-                            value={formData.dateOfBirth}
-                            size="small"
-                            required
-                        /> */}
                         <LocalizationProvider
                             dateAdapter={AdapterDayjs}
                             //adapterLocale="vi"
@@ -210,41 +201,6 @@ const GeneralInfo = memo(({ data }) => {
                             size="small"
                             required
                         />
-                        <Box sx={{ minWidth: 160 }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="patient-department-label">
-                                    Khoa phụ trách
-                                </InputLabel>
-                                <Select
-                                    name="department"
-                                    labelId="patient-department-label"
-                                    id="patient-department"
-                                    //defaultValue={data?.department}
-                                    value={formData.department}
-                                    onChange={(e) =>
-                                        handleChange(e, "department")
-                                    }
-                                    label="Khoa phụ trách"
-                                    size="small"
-                                >
-                                    <MenuItem value="Khoa ngoại">
-                                        Khoa ngoại
-                                    </MenuItem>
-                                    <MenuItem value="Khoa nội">
-                                        Khoa nội
-                                    </MenuItem>
-                                    <MenuItem value="Khoa sản">
-                                        Khoa sản
-                                    </MenuItem>
-                                    <MenuItem value="Khoa nhi">
-                                        Khoa nhi
-                                    </MenuItem>
-                                    <MenuItem value="Khoa mắt">
-                                        Khoa mắt
-                                    </MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
                         <div
                             style={{
                                 display: "flex",

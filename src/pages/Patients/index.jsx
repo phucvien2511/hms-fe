@@ -27,7 +27,6 @@ const Patients = memo(() => {
                 formatData.fullName = item.lastName + " " + item.firstName;
                 formatData.birthday = item.dateOfBirth;
                 formatData.healthInsurance = item.healthInsurance;
-                formatData.department = item.department;
                 formatData.gender = item.gender === "male" ? "Nam" : "Nữ";
                 formatData.phoneNumber = item.phoneNumber;
                 setPatientsData((prevData) => [...prevData, formatData]);
@@ -55,17 +54,11 @@ const Patients = memo(() => {
         const searchData = patientsData.filter((item) =>
             item.fullName.toLowerCase().includes(searchValue.toLowerCase())
         );
-        //filter by department
-        let filterDepData = searchData;
-        if (filters.department && filters.department !== "") {
-            filterDepData = searchData.filter(
-                (item) => item.department === filters.department
-            );
-        }
+
         //filter by gender
-        let filterGenderData = filterDepData;
+        let filterGenderData = searchData;
         if (filters.gender && filters.gender !== "") {
-            filterGenderData = filterDepData.filter(
+            filterGenderData = searchData.filter(
                 (item) => item.gender === filters.gender
             );
         }
