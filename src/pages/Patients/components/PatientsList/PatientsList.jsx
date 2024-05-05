@@ -1,4 +1,4 @@
-import { memo, useState, useCallback } from "react";
+import { memo, useState } from "react";
 import PropTypes from "prop-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,41 +12,34 @@ import { TablePagination, TableSortLabel } from "@mui/material";
 import "./PatientsList.css";
 import { useNavigate } from "react-router-dom";
 
-const PatientsList = memo(({ data }) => {
+const PatientsList = memo(({ data, paginationData, onPaginate }) => {
     console.log("data", data);
-    const [paginationOption, setPaginationOption] = useState({
-        page: 0,
-        rowsPerPage: 10,
-    });
-    const handlePageChange = useCallback((e, newPage) => {
-        setPaginationOption((prevState) => ({
-            ...prevState,
-            page: newPage,
-        }));
-    }, []);
+    // const handlePageChange = useCallback((e, newPage) => {
+    //     setPaginationOption((prevState) => ({
+    //         ...prevState,
+    //         page: newPage,
+    //     }));
+    // }, []);
 
-    const handleRowsPerPageChange = useCallback((e) => {
-        setPaginationOption((prevState) => ({
-            ...prevState,
-            rowsPerPage: Number(e.target.value),
-        }));
-        setPaginationOption((prevState) => ({
-            ...prevState,
-            page: 0,
-        }));
-    }, []);
+    // const handleRowsPerPageChange = useCallback((e) => {
+    //     setPaginationOption((prevState) => ({
+    //         ...prevState,
+    //         page: 0,
+    //         rowsPerPage: Number(e.target.value),
+    //     }));
+    // }, []);
     // Slice data to display on table
     // Will implement different logic when backend pagination is available
-    const sliceData = useCallback(
-        (data) => {
-            return data.slice(
-                paginationOption.page * paginationOption.rowsPerPage,
-                paginationOption.page * paginationOption.rowsPerPage +
-                    paginationOption.rowsPerPage
-            );
-        },
-        [paginationOption.page, paginationOption.rowsPerPage]
-    );
+    // const sliceData = useCallback(
+    //     (data) => {
+    //         return data.slice(
+    //             paginationOption.page * paginationOption.rowsPerPage,
+    //             paginationOption.page * paginationOption.rowsPerPage +
+    //                 paginationOption.rowsPerPage
+    //         );
+    //     },
+    //     [paginationOption.page, paginationOption.rowsPerPage]
+    // );
 
     const [sortOption, setSortOption] = useState({
         order: "asc",
@@ -144,7 +137,8 @@ const PatientsList = memo(({ data }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sliceData(sortedData).map((row, index) => (
+                            {/* {sliceData(sortedData).map((row, index) => ( */}
+                            {data.map((row, index) => (
                                 <TableRow
                                     key={index}
                                     onClick={() =>
@@ -157,7 +151,10 @@ const PatientsList = memo(({ data }) => {
                                         1 +
                                         paginationOption.page *
                                             paginationOption.rowsPerPage} */}
-                                        {row.index}
+                                        {index +
+                                            1 +
+                                            (paginationData.currentPage - 1) *
+                                                paginationData.pageSize}
                                     </TableCell>
                                     <TableCell align="left">
                                         {/* {row.firstName + " " + row.lastName} */}
@@ -178,17 +175,25 @@ const PatientsList = memo(({ data }) => {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25, 50]}
                         component="div"
-                        count={data.length}
-                        rowsPerPage={paginationOption.rowsPerPage}
+                        count={paginationData.totalRow}
+                        rowsPerPage={paginationData.pageSize * 1}
                         labelRowsPerPage={"Số lượng hiển thị mỗi trang"}
                         labelDisplayedRows={({ from, to, count }) => {
                             return `${from}-${to} trong tổng số ${
                                 count !== -1 ? count : `nhiều hơn ${to}`
                             }`;
                         }}
-                        page={paginationOption.page}
-                        onPageChange={handlePageChange}
-                        onRowsPerPageChange={handleRowsPerPageChange}
+                        page={paginationData.currentPage - 1}
+                        //onPageChange={handlePageChange}
+                        onRowsPerPageChange={(e) => {
+                            onPaginate({
+                                pageSize: Number(e.target.value),
+                                page: 1,
+                            });
+                        }}
+                        onPageChange={(e, newPage) => {
+                            onPaginate({ page: newPage + 1 });
+                        }}
                         style={{
                             position: "sticky",
                             bottom: 0,
@@ -207,6 +212,8 @@ const PatientsList = memo(({ data }) => {
 // Ref: https://www.npmjs.com/package/prop-types
 PatientsList.propTypes = {
     data: PropTypes.array,
+    paginationData: PropTypes.object,
+    onPaginate: PropTypes.func,
 };
 
 // Display name for fast refresh using memo
