@@ -15,6 +15,9 @@ import Patients from "../pages/Patients";
 import AddPatient from "../pages/AddPatient";
 import AddAppointment from "../pages/AddAppointment";
 import EditAppointment from "../pages/EditAppointment";
+import Equipment from "../pages/Equipment";
+import AddEquipment from "../pages/AddEquipment";
+import EquipmentInfo from "../pages/EquipmentInfo";
 
 export const routeConfig = [
     {
@@ -50,5 +53,17 @@ export const routeConfig = [
     {
         path: "edit-appointment/:pid/:id",
         component: <EditAppointment />,
+    },
+    {
+        path: "equipments",
+        component: <Equipment />,
+    },
+    {
+        path: "add-equipment",
+        component: <AddEquipment />,
+    },
+    {
+        path: "equipments/:id",
+        component: <EquipmentInfo />,
     },
 ];
