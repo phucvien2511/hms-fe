@@ -182,7 +182,6 @@ const AddAppointment = memo(() => {
                             name="result"
                             label="Chẩn đoán của BS"
                             fullWidth
-                            required
                             size="small"
                         />
                     </div>

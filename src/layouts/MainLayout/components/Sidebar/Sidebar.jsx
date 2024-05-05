@@ -7,6 +7,7 @@ import Staff from "../../../../assets/icons/Staff";
 import Medicine from "../../../../assets/icons/Medicine";
 import Tool from "../../../../assets/icons/Tool";
 import { useNavigate } from "react-router-dom";
+import { Cookies, useCookies } from "react-cookie";
 const Sidebar = memo(({ open, onMaskClick }) => {
     const navigate = useNavigate();
     const isCurrentPath = (path) => {
@@ -15,6 +16,11 @@ const Sidebar = memo(({ open, onMaskClick }) => {
     const handleSidebarNavigate = (path) => {
         navigate(path);
         onMaskClick();
+    };
+    const [cookies, setCookies, removeCookies] = useCookies(["user"]);
+    const handleLogout = () => {
+        removeCookies("user", { path: "/" });
+        navigate("/login");
     };
     return (
         <>
@@ -68,6 +74,11 @@ const Sidebar = memo(({ open, onMaskClick }) => {
                     <div className="sidebar-option-inner">
                         <Tool />
                         <span>Quản lý trang thiết bị</span>
+                    </div>
+                </div>
+                <div className="sidebar-option" onClick={handleLogout}>
+                    <div className="sidebar-option-inner">
+                        <span>Đăng xuất</span>
                     </div>
                 </div>
             </div>

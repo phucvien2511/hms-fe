@@ -132,6 +132,7 @@ const MedicalInfo = memo(({ data }) => {
                                                     row.appointmentId
                                             );
                                         }}
+                                        className="medic-table-row"
                                     >
                                         <TableCell align="left">
                                             {row.appointmentTime}

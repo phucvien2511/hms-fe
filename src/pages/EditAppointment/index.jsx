@@ -45,7 +45,8 @@ const EditAppointment = memo(() => {
         const response = await apiCall.get("/appointments/" + id);
         if (response.success) {
             setFormData(response.data);
-            getDoctorById(response.data.doctor);
+            getAvailableDoctors(response.data.department);
+            getDoctorById(response.data.doctorID);
         }
     }, [id, getDoctorById]);
 
@@ -82,7 +83,7 @@ const EditAppointment = memo(() => {
     });
     const handleSubmit = async (e) => {
         const prepareBody = {
-            //department: e?.department.value || formData?.department,
+            department: e?.department.value || formData?.department,
             appointmentTime:
                 formData.appointmentTime ||
                 dayjs().format("DD/MM/YYYY HH:mm:ss"),
@@ -267,7 +268,6 @@ const EditAppointment = memo(() => {
                             name="result"
                             label="Chẩn đoán của BS"
                             fullWidth
-                            required
                             size="small"
                             value={formData.result}
                             onChange={(e) => handleChange(e, "result")}

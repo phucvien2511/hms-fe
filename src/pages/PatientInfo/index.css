@@ -48,3 +48,8 @@
     color: white;
     transition: all 0.3s;
 }
+
+.medic-table-row:hover {
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+}
