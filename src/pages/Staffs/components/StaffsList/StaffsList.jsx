@@ -8,10 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 // import Paper from "@mui/material/Paper";
 import { TablePagination, TableSortLabel } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import "./StaffsList.css";
 
 const StaffsList = memo(({ data }) => {
+    const navigate = useNavigate();
     const [paginationOption, setPaginationOption] = useState({
         page: 0,
         rowsPerPage: 10,
@@ -38,6 +40,7 @@ const StaffsList = memo(({ data }) => {
     // Will implement different logic when backend pagination is available
     const sliceData = useCallback(
         (data) => {
+            console.log(data.length)
             return data.slice(
                 paginationOption.page * paginationOption.rowsPerPage,
                 paginationOption.page * paginationOption.rowsPerPage +
@@ -92,18 +95,18 @@ const StaffsList = memo(({ data }) => {
                     >
                         <TableRow>
                             <TableCell>
-                                <TableSortLabel
-                                    active={sortOption.orderBy === "id"}
-                                    direction={
-                                        sortOption.orderBy === "id"
-                                            ? sortOption.order
-                                            : "asc"
-                                    }
-                                    onClick={() => handleSortRequest("id")}
-                                    style={{ fontWeight: 600 }}
-                                >
+                                    {/* <TableSortLabel
+                                        active={sortOption.orderBy === "id"}
+                                        direction={
+                                            sortOption.orderBy === "id"
+                                                ? sortOption.order
+                                                : "asc"
+                                        }
+                                        onClick={() => handleSortRequest("id")}
+                                        style={{ fontWeight: 600 }}
+                                    > */}
                                     STT
-                                </TableSortLabel>
+                                {/* </TableSortLabel> */}
                             </TableCell>
                             <TableCell>
                                 <TableSortLabel
@@ -128,10 +131,16 @@ const StaffsList = memo(({ data }) => {
                                 Họ và tên
                             </TableCell> */}
                             <TableCell style={{ fontWeight: 600 }}>
+                                Giới tính
+                            </TableCell>
+                            <TableCell style={{ fontWeight: 600 }}>
                                 Ngày sinh
                             </TableCell>
                             <TableCell style={{ fontWeight: 600 }}>
-                                Khoa công tác
+                                Điện Thoại
+                            </TableCell>
+                            <TableCell style={{ fontWeight: 600 }}>
+                                Phân Loại
                             </TableCell>
                             {/* <TableCell style={{ fontWeight: 600 }}>
                                 Khoa khám
@@ -143,26 +152,34 @@ const StaffsList = memo(({ data }) => {
                     </TableHead>
                     <TableBody>
                         {sliceData(sortedData).map((row, index) => (
-                            <TableRow key={index}>
+                            <TableRow
+                                key={index}
+                                onClick={() =>
+                                    navigate(`/staffs/${row.id}?empType=${row.empType}`)
+                                }
+                                className="doctors-table-row"
+                            >
                                 <TableCell align="left">
                                     {/* {index +
                                         1 +
                                         paginationOption.page *
                                             paginationOption.rowsPerPage} */}
-                                    {row.id}
+                                    {index}
                                 </TableCell>
                                 <TableCell align="left">
                                     {/* {row.firstName + " " + row.lastName} */}
                                     {row.fullName}
                                 </TableCell>
+                                <TableCell>{row.gender}</TableCell>
                                 <TableCell>{row.birthday}</TableCell>
-                                <TableCell>{row.department}</TableCell>
+                                <TableCell>{row.phoneNumber}</TableCell>
+                                <TableCell>{row.empType === "nurse" ? "Y Tá" : "Hành Chính"}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 50]}
+                    rowsPerPageOptions={[10, 20]}
                     component="div"
                     count={data.length}
                     rowsPerPage={paginationOption.rowsPerPage}

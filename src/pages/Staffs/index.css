@@ -1,0 +1,61 @@
+.doctor-search {
+    border: 2px solid lightgray;
+    border-radius: 12px;
+    width: 18em;
+    max-width: 100vw;
+    height: 40px;
+    padding-left: 16px;
+}
+
+.doctor-search::placeholder {
+    color: gray;
+}
+
+.doctor-search:focus {
+    outline: none;
+}
+
+.doctors-filter-btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    align-items: center;
+    border: 2px solid lightgray;
+    border-radius: 12px;
+    height: 40px;
+    padding: 0 12px;
+}
+
+.doctors-filter-btn > span {
+    background: grey;
+    color: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 13px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+.doctors-filter-btn:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.MuiBox-root {
+    margin-top: 6px;
+}
+
+.clear-filter-dialog {
+    color: red;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.clear-filter-dialog:hover {
+    background-color: rgba(255, 0, 0, 0.05);
+    border-radius: 4px;
+}

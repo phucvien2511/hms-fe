@@ -21,7 +21,8 @@ import EquipmentInfo from "../pages/EquipmentInfo";
 import Medicines from "../pages/Medicines";
 import AddMedicine from "../pages/AddMedicine";
 import MedicineInfo from "../pages/MedicineInfo";
-
+import DoctorInfo from "../pages/DoctorInfo";
+import Doctors from "../pages/Doctors";
 
 export const routeConfig = [
     {
@@ -81,5 +82,13 @@ export const routeConfig = [
     {
         path: "medicines/:id",
         component: <MedicineInfo />,
+    },
+    {
+        path: "doctors",
+        component: <Doctors />,
+    },
+    {
+        path: "doctors/:id",
+        component: <DoctorInfo />,
     },
 ];

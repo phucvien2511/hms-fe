@@ -1,0 +1,4 @@
+.patients-table-row:hover {
+    cursor: pointer;
+    background: rgb(240, 240, 240);
+}
