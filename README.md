@@ -1,6 +1,7 @@
 # Hospital Management System (HMS)
 
-This is an assignment for Advanced Programming subject at HCMUT.
+This is an assignment for Advanced Programming subject at HCMUT - Semester 232
+> Backend and Data store - Firebase repository: [URL](https://github.com/phuc0503/hms-be)
 
 ## Installation
 
